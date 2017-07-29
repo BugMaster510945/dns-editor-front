@@ -1,4 +1,8 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
+import { Error } from '../../shared/error/error';
+import { ActivatedRoute } from '@angular/router';
+import { ZoneData } from '../../shared/zone-data';
+import { ZonesDetailService } from './zones-detail.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Response } from '@angular/http';
@@ -10,28 +14,21 @@ import { Response } from '@angular/http';
 })
 export class ZonesDetailComponent implements OnInit {
 
-  constructor(private http: AuthHttpSession) { }
+  zone: ZoneData;
+  error: Error;
+
+  constructor(private zonesDetailService: ZonesDetailService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getZoneData();
+    this.route.params.subscribe((params: { name: string }) => {
+      this.getZoneData(params.name);
+    });
   }
 
-  getZoneData() {
-    this.http.get('/api/zones/planchon.org/entries')
-      .subscribe(
-        (response: Response) =>
-        {
-          console.log(response.text());
-          if(  response
-            && response.status === 200 )
-          {
-            let data = response.json();
-
-            //if( data['status'] === 200 )
-              //this.zones = data['detail'];
-          }
-        }
-      );
+  getZoneData(name: string) {
+    this.zonesDetailService.getZoneData(name).subscribe(
+      res => this.zone = res,
+      err => this.error = err
+    );
   }
-
 }
