@@ -1,13 +1,10 @@
+import { Error } from '../../shared/error/error';
 // vim: set tabstop=2 expandtab filetype=javascript:
+import { ZoneListService } from './zones-list.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Response } from '@angular/http';
-
-export interface zoneDataType {
-  name: String;
-  read: Boolean;
-  write: Boolean;
-}
+import { ZoneData } from './ZoneData';
 
 @Component({
   selector: 'app-zones-list',
@@ -16,25 +13,15 @@ export interface zoneDataType {
 })
 export class ZonesListComponent implements OnInit {
 
-  public zones: zoneDataType[] = [];
+  zones: ZoneData[] = [];
+  error: Error;
 
-  constructor(private http: AuthHttpSession) { }
+  constructor(private zoneListService: ZoneListService) { }
 
   ngOnInit() {
-    this.getZones();
-  }
-
-  getZones() {
-    this.zones = new Array();
-    this.http.get('/api/zones').subscribe(
-      (response: Response) => {
-        if (response && response.status === 200) {
-          let data = response.json();
-
-          if (data['status'] === 200)
-            this.zones = data['detail'];
-        }
-      }
-    );
+    this.zoneListService.getZones().subscribe(
+      res => this.zones = res,
+      err => this.error = err
+    )
   }
 }
