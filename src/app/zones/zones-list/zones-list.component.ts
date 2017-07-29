@@ -26,19 +26,15 @@ export class ZonesListComponent implements OnInit {
 
   getZones() {
     this.zones = new Array();
-    this.http.get('/api/zones')
-      .subscribe(
-        (response: Response) =>
-        {
-          if(  response
-            && response.status === 200 )
-          {
-            let data = response.json();
+    this.http.get('/api/zones').subscribe(
+      (response: Response) => {
+        if (response && response.status === 200) {
+          let data = response.json();
 
-            if( data['status'] === 200 )
-              this.zones = data['detail'];
-          }
+          if (data['status'] === 200)
+            this.zones = data['detail'];
         }
-      );
+      }
+    );
   }
 }
