@@ -1,5 +1,5 @@
-import { Error } from '../../shared/error/error';
 // vim: set tabstop=2 expandtab filetype=javascript:
+import { Error } from '../../shared/error/error';
 import { ZoneListService } from './zones-list.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';
