@@ -4,9 +4,17 @@
 	</a>
     <a class="nav-link" href="#"><i class="nav-text fa fa-15x fa-home"></i><span class="sr-only">(current)</span></a>
     <ol class="breadcrumb bg-inverse">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
-        <li class="breadcrumb-item"><a href="#">Library</a></li>
-        <li class="breadcrumb-item active">Data</li>
+        <li class="breadcrumb-item">
+            <div class="dropdown">
+                <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    Zones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a *ngFor="let zone of zones" class="dropdown-item" href="#">{{zone.name}}</a>
+                </div>
+            </div>
+        </li>
     </ol>
 </nav>
 
