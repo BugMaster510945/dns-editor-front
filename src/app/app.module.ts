@@ -6,8 +6,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginComponent } from './login/login.component';
@@ -33,8 +31,7 @@ import { ZonesRoutingModule } from './zones/zones-routing.module';
     ReactiveFormsModule,
     HttpModule,
     ZonesRoutingModule,
-    AppRoutingModule,
-    NgbModule.forRoot()
+    AppRoutingModule
   ],
   providers: [CheckAuthGuard, AuthService, AuthHttpSession],
   bootstrap: [AppComponent]
