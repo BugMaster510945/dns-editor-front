@@ -1,10 +1,10 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Error } from '../../shared/error/error';
-import { ZoneListService } from './zones-list.service';
+import { ZoneListService } from '../../shared/zones-list.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Response } from '@angular/http';
-import { ZoneData } from './ZoneData';
+import { ZoneData } from '../../shared/zone-data';
 
 @Component({
   selector: 'app-zones-list',
