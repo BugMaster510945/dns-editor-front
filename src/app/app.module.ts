@@ -15,7 +15,7 @@ import { AuthConfig } from 'angular2-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { ZonesListComponent } from './zones/zones-list/zones-list.component';
 import { ZonesDetailComponent } from './zones/zones-detail/zones-detail.component';
-import { ZoneListService } from './zones/zones-list/zones-list.service';
+import { ZoneListService } from './shared/zones-list.service';
 
 @NgModule({
   declarations: [
