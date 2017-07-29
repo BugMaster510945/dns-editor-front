@@ -1,5 +1,5 @@
 import { ZoneData } from '../zone-data';
-import { ZoneListService } from '../zones-list.service';
+import { ZonesListService } from '../zones-list.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -13,7 +13,7 @@ export class PrivateComponent implements OnInit {
     zones: ZoneData[];
     error: Error;
 
-    constructor(private zoneListService: ZoneListService) { }
+    constructor(private zoneListService: ZonesListService) { }
 
     ngOnInit() {
         this.zoneListService.getZones().subscribe(

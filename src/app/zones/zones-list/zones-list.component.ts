@@ -1,6 +1,6 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Error } from '../../shared/error/error';
-import { ZoneListService } from '../../shared/zones-list.service';
+import { ZonesListService } from '../../shared/zones-list.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Response } from '@angular/http';
@@ -16,7 +16,7 @@ export class ZonesListComponent implements OnInit {
   zones: ZoneData[] = [];
   error: Error;
 
-  constructor(private zoneListService: ZoneListService) { }
+  constructor(private zoneListService: ZonesListService) { }
 
   ngOnInit() {
     this.zoneListService.getZones().subscribe(

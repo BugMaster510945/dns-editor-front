@@ -6,7 +6,7 @@ import { Response } from '@angular/http';
 import { ZoneData } from './zone-data';
 
 @Injectable()
-export class ZoneListService extends BaseService {
+export class ZonesListService extends BaseService {
 
     private static ZONE_LIST_URL = '/api/zones';
 
@@ -15,7 +15,7 @@ export class ZoneListService extends BaseService {
     }
 
     getZones(): Observable<ZoneData[]> {
-        return this.http.get(ZoneListService.ZONE_LIST_URL)
+        return this.http.get(ZonesListService.ZONE_LIST_URL)
             .map((res: Response) => {
                 let data = this.extractObject(res);
                 return data['detail'];
