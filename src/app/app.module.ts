@@ -16,6 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ZonesListComponent } from './zones/zones-list/zones-list.component';
 import { ZonesDetailComponent } from './zones/zones-detail/zones-detail.component';
 import { ZonesListService } from './shared/zones-list.service';
+import { ZonesDetailService } from './zones/zones-detail/zones-detail.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ZonesListService } from './shared/zones-list.service';
     CheckAuthGuard, 
     AuthService, 
     AuthHttpSession,
-    ZonesListService
+    ZonesListService,
+    ZonesDetailService
   ],
   bootstrap: [AppComponent]
 })
