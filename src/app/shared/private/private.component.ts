@@ -1,3 +1,4 @@
+// vim: set tabstop=2 expandtab filetype=javascript:
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { ZoneData } from '../zone-data';
 import { ZonesListService } from '../zones-list.service';
