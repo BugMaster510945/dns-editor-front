@@ -1,3 +1,4 @@
+// vim: set tabstop=2 expandtab filetype=javascript:
 import { Observable } from 'rxjs/Rx';
 import { ZoneData } from '../../shared/zone-data';
 import { BaseService } from '../../shared/base-service.service';
@@ -8,7 +9,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ZonesDetailService extends BaseService {
 
-    private static ZONE_DETAIL_URL = '/api/zones/planchon.org/entries';
+    private static ZONE_DETAIL_URL = '/api/v1/zones/planchon.org/entries';
 
     constructor(private http: AuthHttpSession) {
         super();

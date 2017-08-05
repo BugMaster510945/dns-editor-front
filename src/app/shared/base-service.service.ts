@@ -1,3 +1,4 @@
+// vim: set tabstop=2 expandtab filetype=javascript:
 
 import { Error } from './error/error';
 import { Response } from '@angular/http';

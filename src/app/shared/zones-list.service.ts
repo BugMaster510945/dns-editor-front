@@ -1,3 +1,4 @@
+// vim: set tabstop=2 expandtab filetype=javascript:
 import { AuthHttpSession } from '../check-auth/auth.service';
 import { BaseService } from './base-service.service';
 import { Observable } from 'rxjs/Rx';
@@ -8,7 +9,7 @@ import { ZoneData } from './zone-data';
 @Injectable()
 export class ZonesListService extends BaseService {
 
-    private static ZONE_LIST_URL = '/api/zones';
+    private static ZONE_LIST_URL = '/api/v1/zones';
 
     constructor(private http: AuthHttpSession) {
         super();
