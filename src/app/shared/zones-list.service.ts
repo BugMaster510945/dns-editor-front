@@ -19,7 +19,7 @@ export class ZonesListService extends BaseService {
         return this.http.get(ZonesListService.ZONE_LIST_URL)
             .map((res: Response) => {
                 let data = this.extractObject(res);
-                return data['detail'];
+                return data;
             })
             .catch(this.extractError);
     }

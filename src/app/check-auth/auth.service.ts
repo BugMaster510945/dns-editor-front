@@ -19,7 +19,7 @@ export class AuthService {
 
   login(user: string, password: string): Observable<boolean>
   {
-    return this.http.post('/api/v1/authenticate', JSON.stringify({ user: user, password: password }))
+    return this.http.post('/api/v1/login', JSON.stringify({ user: user, password: password }))
       .map((response: Response) => 
         {
           if(  ! response 
