@@ -7,23 +7,26 @@ import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ZonesDetailService extends BaseService {
+export class ZonesDetailService extends BaseService
+{
 
-    private static ZONE_DETAIL_URL = '/api/v1/zones/planchon.org/entries';
+  constructor(private http: AuthHttpSession)
+  {
+    super();
+  }
 
-    constructor(private http: AuthHttpSession) {
-        super();
-    }
+  protected getZoneUrl(name: string): string
+  {
+    return '/api/v1/zones/' + name + '/entries'
+  }
 
-    getZoneData(name: string): Observable<ZoneData> {
-
-        // TODO use name parameter in HTTP call
-
-        return this.http.get(ZonesDetailService.ZONE_DETAIL_URL)
-            .map((res: Response) => {
-                let data = this.extractObject(res);
-                return data['detail'];
-            })
-            .catch(this.extractError);
-    }
+  getZoneData(name: string): Observable<ZoneData>
+  {
+    return this.http.get(this.getZoneUrl(name))
+      .map((res: Response) => {
+        let data = this.extractObject(res);
+        return data;
+      })
+      .catch(this.extractError);
+  }
 }
