@@ -1,3 +1,28 @@
 <app-error [error]="error"></app-error>
 
-<h1 *ngIf="zone">{{zone.name}}</h1>
+<div *ngIf="zone">
+<h1>{{zone.name}}</h1>
+
+<!--<form id="rr-add">-->
+	<table id="records" class="table table-hover">
+		<tr>
+			<th>Name</th>
+			<th>TTL</th>
+			<th>Type</th>
+			<th>Data</th>
+			<!--<th>Action</th>-->
+		</tr>
+		<tr *ngFor="let entry of zone.entries">
+			<td style="text-align: right">{{entry.name}}</td>
+			<td>{{entry.ttl}}</td>
+			<td>{{entry.type}}</td>
+			<td>{{entry.data}}</td>
+			<!--<td></td>-->
+		</tr>
+	</table>
+<!--</form>-->
+
+
+
+</div><!--
+vim: set tabstop=2 noexpandtab binary noeol: -->

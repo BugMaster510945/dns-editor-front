@@ -1,7 +1,7 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Error } from '../../shared/error/error';
 import { ActivatedRoute } from '@angular/router';
-import { ZoneData } from '../../shared/zone-data';
+import { ZoneData } from './zone-data';
 import { ZonesDetailService } from './zones-detail.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';

@@ -1,10 +1,10 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Observable } from 'rxjs/Rx';
-import { ZoneData } from '../../shared/zone-data';
 import { BaseService } from '../../shared/base-service.service';
 import { Response } from '@angular/http';
 import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Injectable } from '@angular/core';
+import { ZoneData } from './zone-data';
 
 @Injectable()
 export class ZonesDetailService extends BaseService
