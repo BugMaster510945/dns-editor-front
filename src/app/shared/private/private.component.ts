@@ -1,6 +1,6 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { ZoneData } from '../zone-data';
+import { ZoneListData } from '../zone-list-data';
 import { ZonesListService } from '../zones-list.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -12,7 +12,7 @@ import { Component, OnInit } from '@angular/core';
 
 export class PrivateComponent implements OnInit {
 
-    zones: ZoneData[];
+    zones: ZoneListData[];
     currentZoneName: string;
     error: Error;
 

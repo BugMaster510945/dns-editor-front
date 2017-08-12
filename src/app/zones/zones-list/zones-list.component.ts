@@ -4,7 +4,7 @@ import { ZonesListService } from '../../shared/zones-list.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Response } from '@angular/http';
-import { ZoneData } from '../../shared/zone-data';
+import { ZoneListData } from '../../shared/zone-list-data';
 
 @Component({
   selector: 'app-zones-list',
@@ -13,7 +13,7 @@ import { ZoneData } from '../../shared/zone-data';
 })
 export class ZonesListComponent implements OnInit {
 
-  zones: ZoneData[] = [];
+  zones: ZoneListData[] = [];
   error: Error;
 
   constructor(private zoneListService: ZonesListService) { }

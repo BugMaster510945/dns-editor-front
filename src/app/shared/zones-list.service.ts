@@ -4,7 +4,7 @@ import { BaseService } from './base-service.service';
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { ZoneData } from './zone-data';
+import { ZoneListData } from './zone-list-data';
 
 @Injectable()
 export class ZonesListService extends BaseService {
@@ -15,7 +15,7 @@ export class ZonesListService extends BaseService {
         super();
     }
 
-    getZones(): Observable<ZoneData[]> {
+    getZones(): Observable<ZoneListData[]> {
         return this.http.get(ZonesListService.ZONE_LIST_URL)
             .map((res: Response) => {
                 let data = this.extractObject(res);
