@@ -1,5 +1,7 @@
+// vim: set tabstop=2 expandtab filetype=javascript:
+import * as Raven from 'raven-js';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -18,6 +20,16 @@ import { ZonesDetailComponent } from './zones/zones-detail/zones-detail.componen
 import { ZonesListService } from './shared/zones-list.service';
 import { ZonesDetailService } from './zones/zones-detail/zones-detail.service';
 
+Raven
+  .config('https://b82ebaeebb9d4f3c988c17f1ed99ca1e@sentry.io/206208')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err:any) : void {
+    Raven.captureException(err);
+  }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +47,7 @@ import { ZonesDetailService } from './zones/zones-detail/zones-detail.service';
     AppRoutingModule
   ],
   providers: [
+    { provide: ErrorHandler, useClass: RavenErrorHandler },
     CheckAuthGuard, 
     AuthService, 
     AuthHttpSession,
