@@ -17,7 +17,7 @@ export class BaseService {
     }
 
     protected extractError(res: Response) {
-        let error: Error = new Error(res.status, res.statusText || 'Something went horribly wrong...', res.json() || {} );
+        let error: Error = new Error(res && res.status || 0, res && res.statusText || 'Something went horribly wrong...', res && res.json() || {} );
         return Observable.throw(error);
     }
 }
