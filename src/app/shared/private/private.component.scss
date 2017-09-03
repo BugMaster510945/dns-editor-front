@@ -6,16 +6,59 @@
     margin-bottom: 0;
 }
 
-.dropdown {
-    a {
-        color: black;
-    }
+.dropdown
+{
+	&>.dropdown-menu
+	{
+		background-color: #292b2c;
+		border-color: #080808;
+
+		&>a
+		{
+			color: #999;
+			&:hover
+			{
+				color: #fff;
+				background-color: #000;
+			}
+		}
+	}
 }
 
-a, li {
-    color: white;
+//.dropdown {
+//    a {
+//        color: black;
+//    }
+//}
+//
+//a, li {
+//    color: white;
+//}
+
+.btn-link
+{
+	color: white;
+	cursor: pointer;
 }
 
-.inline {
+.btn-link:hover,
+.btn-link:focus
+{
+	text-decoration: none;
+}
+.btn.focus,
+.btn:focus
+{
+	outline: 0;
+	box-shadow: none;
+}
+
+a
+{
+	color: white;
+}
+
+.inline
+{
     display: inline;
 }

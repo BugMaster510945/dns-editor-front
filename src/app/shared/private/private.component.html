@@ -2,21 +2,34 @@
     <a class="navbar-brand" href="/" [routerLink]="'/'">
 		<img src="//i.planchon.org/logo.png" height="30" class="d-inline-block align-top" alt="a Bug's Land"> DNS Manager
 	</a>
-    <a class="nav-link" href="/" [routerLink]="'/'"><i class="nav-text fa fa-15x fa-home"></i><span class="sr-only">(current)</span></a>
     <ol class="breadcrumb bg-inverse">
         <li class="breadcrumb-item">
-            <button [routerLink]="['/zones']" class="btn btn-secondary btn-sm"><i class="fa fa-th-list" aria-hidden="true"></i></button>
-            <div class="dropdown inline">
-                <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+			<a href="/" [routerLink]="'/'"><i class="nav-text fa fa-15x fa-home"></i><span class="sr-only">(current)</span></a>
+        </li>
+        <li class="breadcrumb-item">
+			<a href="/zones" [routerLink]="'/zones'">Zones</a>
+            <!--<div class="dropdown inline">
+                <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     Zones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" [routerLink]="['/zones']">Zones</a>
+                </div>
+            </div>
+			-->
+        </li>
+        <li *ngIf="currentZoneName" class="breadcrumb-item">
+            <div class="dropdown inline">
+                <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    {{currentZoneName}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a *ngFor="let zone of zones" class="dropdown-item" [routerLink]="['/zones', zone.name]">{{zone.name}}</a>
                 </div>
             </div>
-        </li>
-        <li *ngIf="currentZoneName" class="breadcrumb-item">{{currentZoneName}}</li>
+		</li>
     </ol>
 </nav>
 
