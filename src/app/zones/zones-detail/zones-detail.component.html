@@ -1,7 +1,26 @@
 <app-error [error]="error"></app-error>
 
-<div *ngIf="zone">
-<h1>{{zone.name}}</h1>
+<div class="container" *ngIf="zone">
+<h1>{{zone.name}}&nbsp;<span>
+	<span *ngIf="zone.read && !zone.write" class="badge badge-info badge-pill">read</span>
+	<span *ngIf="zone.write" class="badge badge-warning badge-pill">write</span>
+</span></h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col">Primary Master</div>
+    <div class="col">{{zone.master}}</div>
+    <div class="col">Responsible</div>
+    <div class="col">{{zone.responsible}}</div>
+  </div>
+  <div class="row">
+    <div class="col">Primary Master</div>
+    <div class="col">{{zone.master}}</div>
+    <div class="col">Responsible</div>
+    <div class="col">{{zone.responsible}}</div>
+    <div class="col">{{zone.responsible}}</div>
+  </div>
+</div>
 
 <!--<form id="rr-add">-->
 	<table id="records" class="table table-hover">
