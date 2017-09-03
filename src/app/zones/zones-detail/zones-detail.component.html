@@ -8,19 +8,45 @@
 
 <div class="container">
   <div class="row">
-    <div class="col">Primary Master</div>
-    <div class="col">{{zone.master}}</div>
-    <div class="col">Responsible</div>
-    <div class="col">{{zone.responsible}}</div>
-  </div>
-  <div class="row">
-    <div class="col">Primary Master</div>
-    <div class="col">{{zone.master}}</div>
-    <div class="col">Responsible</div>
-    <div class="col">{{zone.responsible}}</div>
-    <div class="col">{{zone.responsible}}</div>
+    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 col-12">
+			<div class="container">
+  			<div class="row">
+    			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">Primary Master</div>
+					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.master}}</div>
+				</div>
+  			<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">Responsible</div>
+					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.responsible}}</div>
+				</div>
+  			<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">Serial</div>
+					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.serial}}</div>
+				</div>
+			</div>
+		</div>
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
+			<div class="container">
+  			<div class="row">
+    			<div class="col">Refresh</div>
+					<div class="col text-right">{{zone.refresh}}</div>
+				</div>
+  			<div class="row">
+					<div class="col">Retry</div>
+					<div class="col text-right">{{zone.retry}}</div>
+				</div>
+  			<div class="row">
+					<div class="col">Expire</div>
+					<div class="col text-right">{{zone.expire}}</div>
+				</div>
+  			<div class="row">
+					<div class="col">Minimum</div>
+					<div class="col text-right">{{zone.minimum}}</div>
+				</div>
+			</div>
+		</div>
   </div>
 </div>
+
 
 <!--<form id="rr-add">-->
 	<table id="records" class="table table-hover">
