@@ -19,6 +19,7 @@ import { ZonesListComponent } from './zones/zones-list/zones-list.component';
 import { ZonesDetailComponent } from './zones/zones-detail/zones-detail.component';
 import { ZonesListService } from './shared/zones-list.service';
 import { ZonesDetailService } from './zones/zones-detail/zones-detail.service';
+import { ReadableTimePipe } from './shared/readable-time.pipe';
 
 Raven
   .config('https://b82ebaeebb9d4f3c988c17f1ed99ca1e@sentry.io/206208')
@@ -38,7 +39,8 @@ export class RavenErrorHandler implements ErrorHandler {
     ErrorComponent,
     LoginComponent,
     ZonesListComponent,
-    ZonesDetailComponent
+    ZonesDetailComponent,
+    ReadableTimePipe
   ],
   imports: [
     BrowserModule,

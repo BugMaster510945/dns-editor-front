@@ -28,19 +28,19 @@
 			<div class="container">
   			<div class="row">
     			<div class="col">Refresh</div>
-					<div class="col text-right">{{zone.refresh}}</div>
+					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.refresh | readableTime}}">{{zone.refresh}}</div>
 				</div>
   			<div class="row">
 					<div class="col">Retry</div>
-					<div class="col text-right">{{zone.retry}}</div>
+					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.retry | readableTime}}">{{zone.retry}}</div>
 				</div>
   			<div class="row">
 					<div class="col">Expire</div>
-					<div class="col text-right">{{zone.expire}}</div>
+					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.expire | readableTime}}">{{zone.expire}}</div>
 				</div>
   			<div class="row">
 					<div class="col">Minimum</div>
-					<div class="col text-right">{{zone.minimum}}</div>
+					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.minimum | readableTime}}">{{zone.minimum}}</div>
 				</div>
 			</div>
 		</div>
