@@ -7,54 +7,54 @@
 </span></h1>
 
 <div class="container">
-  <div class="row">
-    <div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 col-12">
+	<div class="row">
+		<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 col-12">
 			<div class="container">
-  			<div class="row">
-    			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">Primary Master</div>
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" i18n="@@PrimaryMaster">Primary Master</div>
 					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.master}}</div>
 				</div>
-  			<div class="row">
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">Responsible</div>
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" i18n="@@Responsible">Responsible</div>
 					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.responsible}}</div>
 				</div>
-  			<div class="row">
-					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">Serial</div>
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" i18n="@@Serial">Serial</div>
 					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.serial}}</div>
 				</div>
 			</div>
 		</div>
-    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
+		<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
 			<div class="container">
-  			<div class="row">
-    			<div class="col">Refresh</div>
+				<div class="row">
+					<div class="col" i18n="@@Refresh">Refresh</div>
 					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.refresh | readableTime}}">{{zone.refresh}}</div>
 				</div>
-  			<div class="row">
-					<div class="col">Retry</div>
+				<div class="row">
+					<div class="col" i18n="@@Retry">Retry</div>
 					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.retry | readableTime}}">{{zone.retry}}</div>
 				</div>
-  			<div class="row">
-					<div class="col">Expire</div>
+				<div class="row">
+					<div class="col" i18n="@@Expire">Expire</div>
 					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.expire | readableTime}}">{{zone.expire}}</div>
 				</div>
-  			<div class="row">
-					<div class="col">Minimum</div>
+				<div class="row">
+					<div class="col" i18n="@@Minimum">Minimum</div>
 					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.minimum | readableTime}}">{{zone.minimum}}</div>
 				</div>
 			</div>
 		</div>
-  </div>
+	</div>
 </div>
 
 
 <!--<form id="rr-add">-->
 	<table id="records" class="table table-hover">
 		<tr>
-			<th>Name</th>
-			<th>TTL</th>
-			<th>Type</th>
-			<th>Data</th>
+			<th i18n="@@Name">Name</th>
+			<th i18n="@@TTL">TTL</th>
+			<th i18n="@@Type">Type</th>
+			<th i18n="@@Data">Data</th>
 			<!--<th>Action</th>-->
 		</tr>
 		<tr *ngFor="let entry of zone.entries">
