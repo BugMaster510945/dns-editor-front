@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { AppComponent } from './app.component';
 import { PrivateComponent } from './shared/private/private.component';
 import { ErrorComponent } from './shared/error/error.component';
@@ -20,10 +22,9 @@ import { ZonesDetailComponent } from './zones/zones-detail/zones-detail.componen
 import { ZonesListService } from './shared/zones-list.service';
 import { ZonesDetailService } from './zones/zones-detail/zones-detail.service';
 import { ReadableTimePipe } from './shared/readable-time.pipe';
-
-Raven
-  .config('https://b82ebaeebb9d4f3c988c17f1ed99ca1e@sentry.io/206208')
-  .install();
+//Raven
+//  .config('https://b82ebaeebb9d4f3c988c17f1ed99ca1e@sentry.io/206208')
+//  .install();
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err:any) : void {
@@ -43,6 +44,7 @@ export class RavenErrorHandler implements ErrorHandler {
     ReadableTimePipe
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     ReactiveFormsModule,
     HttpModule,

@@ -1,31 +1,30 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse sticky-top">
+<nav class="navbar navbar-expand-sm navbar-dark bg-darker sticky-top">
     <a class="navbar-brand" href="/" [routerLink]="'/'">
 		<img src="//i.planchon.org/logo.png" height="30" class="d-inline-block align-top" alt="a Bug's Land"> DNS Manager
 	</a>
-    <ol class="breadcrumb bg-inverse">
+    <ol class="breadcrumb bg-darker">
         <li class="breadcrumb-item">
 			<a href="/" [routerLink]="'/'"><i class="nav-text fa fa-15x fa-home"></i><span class="sr-only">(current)</span></a>
         </li>
         <li class="breadcrumb-item">
 			<a href="/zones" [routerLink]="'/zones'">Zones</a>
-            <!--<div class="dropdown inline">
-                <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+			<!--
+            <div ngbDropdown class="d-inline">
+                <button class="btn btn-link btn-sm" type="button" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                     Zones
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <div aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
                     <a class="dropdown-item" [routerLink]="['/zones']">Zones</a>
                 </div>
             </div>
 			-->
         </li>
         <li *ngIf="currentZoneName" class="breadcrumb-item">
-            <div class="dropdown inline">
-                <button class="btn btn-link btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+            <div class="d-inline dropdown" ngbDropdown>
+                <a id="dropdownMenuButton" [routerLink]="['/zones', currentZoneName]" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
                     {{currentZoneName}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                </a>
+                <div class="dropdown-menu bg-darker" aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
                     <a *ngFor="let zone of zones" class="dropdown-item" [routerLink]="['/zones', zone.name]">{{zone.name}}</a>
                 </div>
             </div>

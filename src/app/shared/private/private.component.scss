@@ -10,9 +10,7 @@
 {
 	&>.dropdown-menu
 	{
-		background-color: #292b2c;
 		border-color: #080808;
-
 		&>a
 		{
 			color: #999;
@@ -56,9 +54,8 @@
 a
 {
 	color: white;
-}
-
-.inline
-{
-    display: inline;
+	&:hover
+	{
+		text-decoration: none;
+	}
 }
