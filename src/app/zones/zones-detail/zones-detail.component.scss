@@ -1,7 +1,16 @@
 h1 span.badge
 {
-  font-size: 0.3em;
-  vertical-align: super;
-  position: relative;
-  top: -0.3em;
+	font-size: 0.3em;
+	vertical-align: super;
+	position: relative;
+	top: -0.3em;
+}
+img.superkey
+{
+	height: 0.4em;
+	vertical-align: super;
+}
+h1 > span > button
+{
+	background-color: transparent;
 }

@@ -4,7 +4,17 @@
 <h1>{{zone.name}}&nbsp;<span>
 	<span *ngIf="zone.read && !zone.write" class="badge badge-info badge-pill">read</span>
 	<span *ngIf="zone.write" class="badge badge-warning badge-pill">write</span>
+	<span *ngIf="zone.secured" placement="bottom" ngbPopover="You see, I show up on hover!" triggers="mouseenter:mouseleave" popoverTitle="Pop title">
+		<img class="superkey" src="assets/key.svg">
+	</span>
+	<button class="btn btn-secondary" *ngIf="zone.secured" placement="bottom" ngbPopover="You see, I show up on hover!" popoverTitle="Pop title">
+		<img class="superkey" src="assets/key.svg">
+	</button>
 </span></h1>
+<button type="button" class="btn btn-outline-secondary" placement="bottom"
+        ngbPopover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." popoverTitle="Popover on bottom">
+  Popover on bottom
+</button>
 
 <div class="container">
 	<div class="row">
