@@ -6,6 +6,8 @@ import { ZonesDetailService } from './zones-detail.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Response } from '@angular/http';
+import { FormControl, FormGroup } from '@angular/forms';
+
 
 @Component({
   selector: 'app-zones-detail',
@@ -17,11 +19,20 @@ export class ZonesDetailComponent implements OnInit {
   zone: ZoneData;
   error: Error;
 
+  myForm: FormGroup;
+
   constructor(private zonesDetailService: ZonesDetailService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: { name: string }) => {
       this.getZoneData(params.name);
+    });
+    this.myForm = new FormGroup(
+    {
+      filter_name: new FormControl(null),
+      filter_ttl:  new FormControl(null),
+      filter_type: new FormControl(null),
+      filter_data: new FormControl(null)
     });
   }
 

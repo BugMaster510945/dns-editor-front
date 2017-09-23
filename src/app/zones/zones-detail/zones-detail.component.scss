@@ -10,7 +10,29 @@ img.superkey
 	height: 0.4em;
 	vertical-align: super;
 }
-h1 > span > button
+.popover-divider
 {
-	background-color: transparent;
+	//font-size: 0.9em;
+	background-color: #f7f7f7;
+	border-bottom: 1px solid #ebebeb;
+	border-top: 1px solid #ebebeb;
+	padding: 4px 14px 8px 14px;
+	margin-top: 4px;
+	margin-bottom: 9px;
+}
+span.addicon
+{
+	position: relative;
+}
+span.addicon > i
+{
+    position:absolute;
+    left: 1rem;
+    top: 1.75rem;
+	color: #495057;
+	font-size: 1rem;
+}
+span.addicon + input.form-control
+{
+	padding-left: 2.25rem;
 }

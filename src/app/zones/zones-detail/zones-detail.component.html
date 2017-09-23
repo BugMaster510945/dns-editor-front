@@ -4,17 +4,43 @@
 <h1>{{zone.name}}&nbsp;<span>
 	<span *ngIf="zone.read && !zone.write" class="badge badge-info badge-pill">read</span>
 	<span *ngIf="zone.write" class="badge badge-warning badge-pill">write</span>
-	<span *ngIf="zone.secured" placement="bottom" ngbPopover="You see, I show up on hover!" triggers="mouseenter:mouseleave" popoverTitle="Pop title">
+	<ng-template #popContent>
+		<div class="row">
+			<div class="col">Key&nbsp;Signing&nbsp;Key</div>
+			<div class="col">
+				<div class="container">
+					<div class="row" *ngFor="let ksk of zone.secured.ksk">
+						<div class="col text-right">{{ksk}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">Zone&nbsp;Signing&nbsp;Key</div>
+			<div class="col">
+				<div class="container">
+					<div class="row" *ngFor="let zsk of zone.secured.zsk">
+						<div class="col text-right">{{zsk}}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row popover-divider">
+			NSEC3 Parameter
+		</div>
+		<div class="row">
+			<div class="col">Salt</div>
+			<div class="col text-right">{{zone.secured.nsec3param.salt}}</div>
+		</div>
+		<div class="row">
+			<div class="col">Iterations</div>
+			<div class="col text-right">{{zone.secured.nsec3param.iterations}}</div>
+		</div>
+  </ng-template>
+	<span *ngIf="zone.secured" placement="right" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Secure zone">
 		<img class="superkey" src="assets/key.svg">
 	</span>
-	<button class="btn btn-secondary" *ngIf="zone.secured" placement="bottom" ngbPopover="You see, I show up on hover!" popoverTitle="Pop title">
-		<img class="superkey" src="assets/key.svg">
-	</button>
 </span></h1>
-<button type="button" class="btn btn-outline-secondary" placement="bottom"
-        ngbPopover="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." popoverTitle="Popover on bottom">
-  Popover on bottom
-</button>
 
 <div class="container">
 	<div class="row">
@@ -38,19 +64,19 @@
 			<div class="container">
 				<div class="row">
 					<div class="col" i18n="@@Refresh">Refresh</div>
-					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.refresh | readableTime}}">{{zone.refresh}}</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.refresh | readableTime}}">{{zone.refresh}}</div>
 				</div>
 				<div class="row">
 					<div class="col" i18n="@@Retry">Retry</div>
-					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.retry | readableTime}}">{{zone.retry}}</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.retry | readableTime}}">{{zone.retry}}</div>
 				</div>
 				<div class="row">
 					<div class="col" i18n="@@Expire">Expire</div>
-					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.expire | readableTime}}">{{zone.expire}}</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.expire | readableTime}}">{{zone.expire}}</div>
 				</div>
 				<div class="row">
 					<div class="col" i18n="@@Minimum">Minimum</div>
-					<div class="col text-right" data-toggle="tooltip" data-placement="bottom" title="{{zone.minimum | readableTime}}">{{zone.minimum}}</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.minimum | readableTime}}">{{zone.minimum}}</div>
 				</div>
 			</div>
 		</div>
@@ -59,23 +85,51 @@
 
 
 <!--<form id="rr-add">-->
-	<table id="records" class="table table-hover">
-		<tr>
-			<th i18n="@@Name">Name</th>
-			<th i18n="@@TTL">TTL</th>
-			<th i18n="@@Type">Type</th>
-			<th i18n="@@Data">Data</th>
-			<!--<th>Action</th>-->
-		</tr>
-		<tr *ngFor="let entry of zone.entries">
-			<td>{{entry.name}}</td>
-			<td>{{entry.ttl}}</td>
-			<td>{{entry.type}}</td>
-			<td>{{entry.data}}</td>
-			<!--<td></td>-->
-		</tr>
+<form novalidate [formGroup]="myForm">
+	<table id="records" class="table table-sm table-striped table-hover">
+		<thead class="thead-inverse">
+			<tr>
+				<th i18n="@@Name">Name</th>
+				<th i18n="@@TTL">TTL</th>
+				<th i18n="@@Type">Type</th>
+				<th i18n="@@Data">Data</th>
+				<th i18n="@@Action">Action</th>
+			</tr>
+			<tr>
+				<td>
+      		<span class="addicon"><i class="fa fa-filter"></i></span>
+					<input type="text" class="form-control" placeholder="Name's filter" aria-label="Name's filter" formControlName="filter_name">
+				</td>
+				<td>
+					<span class="addicon"><i class="fa fa-filter"></i></span>
+					<input type="text" class="form-control" placeholder="TTL's filter" aria-label="TTL's filter" formControlName="filter_ttl">
+				</td>
+				<td>
+					<span class="addicon"><i class="fa fa-filter"></i></span>
+					<input type="text" class="form-control" placeholder="Type's filter" aria-label="Type's filter" formControlName="filter_type">
+				</td>
+				<td>
+					<span class="addicon"><i class="fa fa-filter"></i></span>
+					<input type="text" class="form-control" placeholder="Data's filter" aria-label="Data's filter" formControlName="filter_data">
+				</td>
+				<td class="align-middle text-center">
+					<button type="buctton" class="btn btn-sm btn-outline-success" formControlName="filter_data"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let entry of zone.entries | filterZoneEntry:myForm.get('filter_name').value:myForm.get('filter_ttl').value:myForm.get('filter_type').value:myForm.get('filter_data').value">
+				<td>{{entry.name}}</td>
+				<td><span placement="bottom" ngbTooltip="{{entry.ttl | readableTime}}">{{entry.ttl}}</span></td>
+				<td>{{entry.type}}</td>
+				<td>{{entry.data}}</td>
+				<td class="align-middle text-center">
+					<button type="button" class="btn btn-sm btn-outline-warning" formControlName="filter_data"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+				</td>
+			</tr>
+		</tbody>
 	</table>
-<!--</form>-->
+</form>
 
 
 
