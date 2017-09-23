@@ -26,6 +26,7 @@ export class FilterZoneEntryPipe implements PipeTransform
     let f_no_type: boolean = f_type.length == 0;
     let f_no_data: boolean = f_data.length == 0;
 
+    //return value.filter(
     return (value || []).filter(
       (item) => 
       {

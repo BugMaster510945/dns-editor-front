@@ -26,13 +26,23 @@ span.addicon
 }
 span.addicon > i
 {
-    position:absolute;
-    left: 1rem;
-    top: 1.75rem;
+	position:absolute;
+	left: 1rem;
+	top: 1.75rem;
 	color: #495057;
 	font-size: 1rem;
 }
 span.addicon + input.form-control
 {
 	padding-left: 2.25rem;
+}
+.btn-xs
+{
+	padding: 1px 5px;
+	font-size: 12px;
+	line-height: 1.5;
+}
+table.align-middle tr td
+{
+	vertical-align: middle;
 }

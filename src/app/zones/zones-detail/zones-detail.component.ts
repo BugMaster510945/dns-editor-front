@@ -24,9 +24,6 @@ export class ZonesDetailComponent implements OnInit {
   constructor(private zonesDetailService: ZonesDetailService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe((params: { name: string }) => {
-      this.getZoneData(params.name);
-    });
     this.myForm = new FormGroup(
     {
       filter_name: new FormControl(null),
@@ -34,9 +31,14 @@ export class ZonesDetailComponent implements OnInit {
       filter_type: new FormControl(null),
       filter_data: new FormControl(null)
     });
+    this.route.params.subscribe((params: { name: string }) => {
+      this.getZoneData(params.name);
+    });
   }
 
   getZoneData(name: string) {
+    this.zone = null;
+    this.error = null;
     this.zonesDetailService.getZoneData(name).subscribe(
       res => this.zone = res,
       err => this.error = err
