@@ -23,6 +23,7 @@ import { ZonesListService } from './shared/zones-list.service';
 import { ZonesDetailService } from './zones/zones-detail/zones-detail.service';
 import { ReadableTimePipe } from './shared/readable-time.pipe';
 import { FilterZoneEntryPipe } from './zones/zones-detail/filter-zone-entry.pipe';
+import { ZonesEntryEditComponent } from './zones/zones-entry-edit/zones-entry-edit.component';
 //Raven
 //  .config('https://b82ebaeebb9d4f3c988c17f1ed99ca1e@sentry.io/206208')
 //  .install();
@@ -43,7 +44,8 @@ export class RavenErrorHandler implements ErrorHandler {
     ZonesListComponent,
     ZonesDetailComponent,
     ReadableTimePipe,
-    FilterZoneEntryPipe
+    FilterZoneEntryPipe,
+    ZonesEntryEditComponent
   ],
   imports: [
     NgbModule.forRoot(),
