@@ -31,3 +31,10 @@ export class ZoneData {
   read: boolean;
   write: boolean;
 }
+
+export type DNSTypeList = DNSType[];
+
+export class DNSType {
+  name: string;
+  regexp: string;
+}

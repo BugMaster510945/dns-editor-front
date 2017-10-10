@@ -1,0 +1,11 @@
+.toUC
+{
+	text-transform: uppercase;
+	&::placeholder
+	{
+		text-transform: initial;
+	}
+	//&:placeholder-shown {
+		//border: 1px solid red; /* Red border only if the input is empty */
+	//}
+}

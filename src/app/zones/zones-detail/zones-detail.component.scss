@@ -28,7 +28,8 @@ span.addicon > i
 {
 	position:absolute;
 	left: 1rem;
-	top: 1.75rem;
+	top: 1.75rem; /* Firefox buggy version
+	top: 0.75rem;*/
 	color: #495057;
 	font-size: 1rem;
 }
