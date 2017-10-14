@@ -19,5 +19,6 @@
 		<label for="data" class="sr-only">Donnée</label>
 		<input type="text" id="data" class="form-control" placeholder="Entry's data" formControlName="data">
 	</div>
+<button type="submit" [disabled]="!myForm.valid">Submit</button>
 </form><!--
 vim: set tabstop=2 noexpandtab binary noeol: -->
