@@ -10,7 +10,7 @@
 	</div>
 	<div class="form-group">
 		<label for="type" class="sr-only">Type</label>
-		<input type="text" id="type" class="form-control toUC" placeholder="Entry's type" formControlName="type" list="dnstypes">
+		<input type="text" id="type" class="form-control" placeholder="Entry's type" formControlName="type" list="dnstypes">
 		<datalist id="dnstypes">
 			<option *ngFor="let v of zoneDNSType" value="{{v.name}}">
 		</datalist>

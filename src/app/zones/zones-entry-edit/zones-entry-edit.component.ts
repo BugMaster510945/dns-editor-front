@@ -10,6 +10,7 @@ import { ZoneDataEntry, DNSType, DNSTypeList } from '../../shared/zone-data';
   styleUrls: ['./zones-entry-edit.component.scss']
 })
 export class ZonesEntryEditComponent implements OnInit {
+  static zoneDNSTypeCache: DNSTypeList = null;
   zoneDNSType: DNSTypeList;
 
   myForm: FormGroup;
@@ -62,18 +63,33 @@ export class ZonesEntryEditComponent implements OnInit {
 
   }
 
-  getZoneDNSType() {
-    this.zoneDNSType = [];
-    this.zoneDNSTypeService.getDNSType().subscribe(
-      res => this.zoneDNSType = res
-    );
+  getZoneDNSType()
+  {
+    this.zoneDNSType = ZonesEntryEditComponent.zoneDNSTypeCache;
+    if( ZonesEntryEditComponent.zoneDNSTypeCache == null )
+    {
+      this.zoneDNSType = [];
+      ZonesEntryEditComponent.zoneDNSTypeCache = [];
+      this.zoneDNSTypeService.getDNSType().subscribe(
+        res => 
+        {
+          ZonesEntryEditComponent.zoneDNSTypeCache = res;
+          this.zoneDNSType = res;
+        }
+      );
+    }  
   }
 
   DNSTypeValueChanged() {
     this.myForm.get('type').valueChanges.subscribe(
       (newtype: string) =>
       {
-        newtype = newtype.toLocaleUpperCase();
+        var upValue = newtype.toLocaleUpperCase();
+        if( upValue != newtype )
+        {
+          this.myForm.get('type').setValue(upValue);
+          return;
+        }
         var newpattern : string = '';
         var item : DNSType;
         // TODO: voir pour optimiser avec une hashmap
