@@ -1,16 +1,38 @@
 <h3><span *ngIf="entry">Modification</span><span *ngIf="!entry">Ajout</span></h3>
-<form [formGroup]="myForm">
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
 	<div class="form-group">
 		<label for="name" class="sr-only">Nom</label>
 		<input type="text" id="name" class="form-control" placeholder="Entry's name" formControlName="name">
+		<ul class="form-error">
+			<li *ngIf="myForm.get('name').errors?.required">Please provide a entry name.</li>
+			<li *ngIf="myForm.get('name').errors?.pattern">
+				Please provide a valid entry name.
+				<span placement="bottom" ngbPopover="{{ myForm.get('name').errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
+			</li>
+		</ul>
 	</div>
 	<div class="form-group">
 		<label for="ttl" class="sr-only">Durée de vie (TTL)</label>
-		<input type="text" id="ttl" class="form-control" placeholder="Entry's TTL" formControlName="ttl">
+		<input type="number" id="ttl" class="form-control" placeholder="Entry's TTL" formControlName="ttl">
+		<ul class="form-error">
+			<li *ngIf="myForm.get('ttl').errors?.required">Please provide a entry TTL.</li>
+			<li *ngIf="myForm.get('ttl').errors?.pattern">TTL must be digit (seconds).</li>
+			<li *ngIf="myForm.get('ttl').errors?.min">TTL must be greater than {{ myForm.get('ttl').errors?.min.min }}.</li>
+			<li *ngIf="myForm.get('ttl').errors?.max">TTL must be lower than {{ myForm.get('ttl').errors?.max.max }}.</li>
+		</ul>
 	</div>
 	<div class="form-group">
 		<label for="type" class="sr-only">Type</label>
 		<input type="text" id="type" class="form-control" placeholder="Entry's type" formControlName="type" list="dnstypes">
+		<ul class="form-error">
+			<li *ngIf="myForm.get('type').errors?.required">Please provide a entry type.</li>
+			<li *ngIf="myForm.get('type').errors?.pattern">
+				Type must be uppercased letter.
+				<span placement="bottom" ngbPopover="{{ myForm.get('type').errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
+			</li>
+			<li *ngIf="myForm.get('type').errors?.minlength">Type must be at least {{ myForm.get('type').errors?.minlength.requiredLength }} characters.</li>
+			<li *ngIf="myForm.get('type').errors?.maxlength">Type must be {{ myForm.get('type').errors?.maxlength.requiredLength }} characters max.</li>
+		</ul>
 		<datalist id="dnstypes">
 			<option *ngFor="let v of zoneDNSType" value="{{v.name}}">
 		</datalist>
@@ -18,7 +40,17 @@
 	<div class="form-group">
 		<label for="data" class="sr-only">Donnée</label>
 		<input type="text" id="data" class="form-control" placeholder="Entry's data" formControlName="data">
+		<ul class="form-error">
+			<li *ngIf="myForm.get('data').errors?.required">Please provide a entry data.</li>
+			<li *ngIf="myForm.get('data').errors?.minlength">Data must be at least {{ myForm.get('data').errors?.minlength.requiredLength }} characters.</li>
+			<li *ngIf="myForm.get('data').errors?.pattern">
+				Please provide a valid entry data.
+				<span placement="bottom" ngbPopover="{{ myForm.get('data').errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
+			</li>
+		</ul>
 	</div>
-<button type="submit" [disabled]="!myForm.valid">Submit</button>
+	<button type="button" class="btn btn-secondary" (click)="onReset()">Cancel</button>
+	<button type="button" class="btn btn-danger" (click)="onDelete()"><i class="fa fa-trash"></i> Delete</button>
+	<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
 </form><!--
 vim: set tabstop=2 noexpandtab binary noeol: -->

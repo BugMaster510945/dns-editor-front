@@ -37,6 +37,13 @@ span.addicon + input.form-control
 {
 	padding-left: 2.25rem;
 }
+@media screen and (-webkit-min-device-pixel-ratio:0)
+{
+	span.addicon > i
+	{
+		top: 0.75rem;
+	}
+}
 .btn-xs
 {
 	padding: 1px 5px;

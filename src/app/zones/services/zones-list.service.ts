@@ -1,6 +1,6 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { AuthHttpSession } from '../check-auth/auth.service';
-import { BaseService } from './base-service.service';
+import { AuthHttpSession } from '../../check-auth/auth.service';
+import { BaseService } from '../../shared/base-service.service';
 import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';

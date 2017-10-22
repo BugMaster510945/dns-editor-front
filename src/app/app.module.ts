@@ -19,11 +19,11 @@ import { AuthConfig } from 'angular2-jwt';
 import { AppRoutingModule } from './app-routing.module';
 import { ZonesListComponent } from './zones/zones-list/zones-list.component';
 import { ZonesDetailComponent } from './zones/zones-detail/zones-detail.component';
-import { ZonesListService } from './shared/zones-list.service';
-import { ZonesDetailService } from './zones/zones-detail/zones-detail.service';
+import { ZonesListService } from './zones/services/zones-list.service';
+import { ZonesDetailService } from './zones/services/zones-detail.service';
 import { ReadableTimePipe } from './shared/readable-time.pipe';
 import { FilterZoneEntryPipe } from './zones/zones-detail/filter-zone-entry.pipe';
-import { ZonesDNSTypeService } from './zones/zones-entry-edit/zones-dns-type.service';
+import { ZonesDNSTypeService } from './zones/services/zones-dns-type.service';
 import { ZonesEntryEditComponent } from './zones/zones-entry-edit/zones-entry-edit.component';
 //Raven
 //  .config('https://b82ebaeebb9d4f3c988c17f1ed99ca1e@sentry.io/206208')
