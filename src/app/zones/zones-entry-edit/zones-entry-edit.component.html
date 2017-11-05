@@ -1,4 +1,4 @@
-<h3><span *ngIf="entry">Modification</span><span *ngIf="!entry">Ajout</span></h3>
+<h3 *ngIf="header">{{ header }}</h3>
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
 	<div class="form-group">
 		<label for="name" class="sr-only">Nom</label>
@@ -49,8 +49,8 @@
 			</li>
 		</ul>
 	</div>
-	<button type="button" class="btn btn-secondary" (click)="onReset()">Cancel</button>
-	<button type="button" class="btn btn-danger" (click)="onDelete()"><i class="fa fa-trash"></i> Delete</button>
-	<button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
+	<button *ngIf="hasButton" type="button" class="btn btn-secondary" (click)="onReset()">Cancel</button>
+	<button *ngIf="hasButton && needDelete" type="button" class="btn btn-danger" (click)="onDelete()"><i class="fa fa-trash"></i> Delete</button>
+	<button *ngIf="hasButton" type="button" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
 </form><!--
 vim: set tabstop=2 noexpandtab binary noeol: -->

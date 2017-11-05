@@ -1,29 +1,53 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { Error } from '../../shared/error/error';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ZoneData } from '../services/zone-data';
-import { ZonesDetailService } from '../services/zones-detail.service';
-import { Component, OnInit } from '@angular/core';
-import { AuthHttpSession } from '../../check-auth/auth.service';
 import { Response } from '@angular/http';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+import { Error } from '../../shared/error/error';
+import { AuthHttpSession } from '../../check-auth/auth.service';
+import { ZoneData, ZoneDataEntry } from '../services/zone-data';
+import { ZonesDetailService } from '../services/zones-detail.service';
+import { ZonesEntryEditOperation } from '../zones-entry-edit/zones-entry-edit.component';
+
+class modalData
+{
+  title: string;
+  hasDelete: boolean;
+  canSubmit: boolean;
+  button: EventEmitter<ZonesEntryEditOperation>;
+}
 
 @Component({
   selector: 'app-zones-detail',
   templateUrl: './zones-detail.component.html',
   styleUrls: ['./zones-detail.component.scss']
 })
+
 export class ZonesDetailComponent implements OnInit {
 
+  modalView: modalData;
   zone: ZoneData;
   error: Error;
+  currentEntry: ZoneDataEntry;
 
   myForm: FormGroup;
 
-  constructor(private zonesDetailService: ZonesDetailService, private route: ActivatedRoute) { }
+  constructor(
+    private zonesDetailService: ZonesDetailService, 
+    private route: ActivatedRoute,
+    private modalService: NgbModal
+  )
+  { 
+    this.modalView = new modalData;
+    this.modalView.button = new EventEmitter<ZonesEntryEditOperation>();
+  }
 
   ngOnInit() {
+    this.modalView.title = null;
+    this.modalView.hasDelete = false;
+    this.modalView.canSubmit = false;
     this.myForm = new FormGroup(
     {
       filter_name: new FormControl(null),
@@ -43,5 +67,19 @@ export class ZonesDetailComponent implements OnInit {
       res => this.zone = res,
       err => this.error = err
     );
+  }
+
+  edit(modele, entry: ZoneDataEntry)
+  {
+    this.currentEntry = entry;
+    this.modalService.open(modele).result.then((result) => {
+      //this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  addEntry()
+  {
   }
 }

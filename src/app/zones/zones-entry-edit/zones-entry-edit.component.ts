@@ -2,7 +2,16 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ZonesDNSTypeService } from '../services/zones-dns-type.service';
-import { ZoneDataEntry, DNSType, DNSTypeList } from '../services/zone-data';
+import { ZonesEntryService } from '../services/zones-entry.service';
+import { ZoneData, ZoneDataEntry, DNSType, DNSTypeList } from '../services/zone-data';
+
+export enum ZonesEntryEditOperation
+{
+  save,
+  add,
+  delete,
+  cancel
+}
 
 @Component({
   selector: 'zones-entry-edit',
@@ -14,14 +23,33 @@ export class ZonesEntryEditComponent implements OnInit {
 
   myForm: FormGroup;
   resetValue: ZoneDataEntry;
+  header: string;
+  hasButton: boolean;
+  needDeleteButton: boolean;
 
+  @Input()  zone: ZoneData;
   @Input()  prefill: ZoneDataEntry;
   @Input()  entry: ZoneDataEntry;
   @Output() entryChange = new EventEmitter<ZoneDataEntry>();
 
-  constructor(private zoneDNSTypeService: ZonesDNSTypeService) { }
+  @Input()  button: EventEmitter<ZonesEntryEditOperation>;
+  @Output() title = new EventEmitter<string>();
+  @Output() hasDelete = new EventEmitter<boolean>();
+  @Output() canSubmit = new EventEmitter<boolean>();
+
+  constructor(private zonesEntryService: ZonesEntryService, private zoneDNSTypeService: ZonesDNSTypeService) { }
 
   ngOnInit() {
+    this.needDelete = this.entry ? true : false;
+    this.header = this.entry ? "Modification" : "Ajout";
+    this.hasDelete.emit( this.needDelete );
+    this.hasButton = this.button ? false : true;
+    //if( /* this.title.hasObservers()*/ )
+    if( this.title.observers.length > 0 )
+    {
+      this.title.emit(this.header);
+      this.header = null;
+    }
     this.myForm = new FormGroup(
     {
       name: new FormControl(
@@ -36,6 +64,7 @@ export class ZonesEntryEditComponent implements OnInit {
       ttl:  new FormControl(
         this.entry   && this.entry.ttl   ||
         this.prefill && this.prefill.ttl ||
+        this.zone.minimum                ||
         '',
         [
           Validators.required,
@@ -65,6 +94,7 @@ export class ZonesEntryEditComponent implements OnInit {
         ]
       )
     });
+    this.propagateValidity();
 
     this.getZoneDNSType();
     this.DNSTypeValueChanged();
@@ -72,6 +102,16 @@ export class ZonesEntryEditComponent implements OnInit {
       this.myForm.get('type').value.toLocaleUpperCase()
     );
     this.resetValue = this.myForm.value;
+  }
+
+  propagateValidity()
+  {
+    this.myForm.statusChanges.subscribe(
+      data =>
+      {
+        this.canSubmit.emit(!this.myForm.valid);
+      }
+    );
   }
 
   getZoneDNSType()
@@ -128,6 +168,7 @@ export class ZonesEntryEditComponent implements OnInit {
 
   onSubmit()
   {
+    this.zonesEntryService.add(this.zone, this.myForm.value);
   }
 
   onReset()
