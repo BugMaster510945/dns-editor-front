@@ -50,7 +50,7 @@
 		</ul>
 	</div>
 	<button *ngIf="hasButton" type="button" class="btn btn-secondary" (click)="onReset()">Cancel</button>
-	<button *ngIf="hasButton && needDelete" type="button" class="btn btn-danger" (click)="onDelete()"><i class="fa fa-trash"></i> Delete</button>
+	<button *ngIf="hasButton && needDeleteButton" type="button" class="btn btn-danger" (click)="onDelete()"><i class="fa fa-trash"></i> Delete</button>
 	<button *ngIf="hasButton" type="button" class="btn btn-primary" [disabled]="!myForm.valid">Submit</button>
 </form><!--
 vim: set tabstop=2 noexpandtab binary noeol: -->

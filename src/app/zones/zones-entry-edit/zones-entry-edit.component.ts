@@ -1,6 +1,7 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { ZonesDNSTypeService } from '../services/zones-dns-type.service';
 import { ZonesEntryService } from '../services/zones-entry.service';
 import { ZoneData, ZoneDataEntry, DNSType, DNSTypeList } from '../services/zone-data';
@@ -8,7 +9,6 @@ import { ZoneData, ZoneDataEntry, DNSType, DNSTypeList } from '../services/zone-
 export enum ZonesEntryEditOperation
 {
   save,
-  add,
   delete,
   cancel
 }
@@ -18,7 +18,8 @@ export enum ZonesEntryEditOperation
   templateUrl: './zones-entry-edit.component.html',
   styleUrls: ['./zones-entry-edit.component.scss']
 })
-export class ZonesEntryEditComponent implements OnInit {
+export class ZonesEntryEditComponent implements OnInit, OnDestroy
+{
   zoneDNSType: DNSTypeList;
 
   myForm: FormGroup;
@@ -26,6 +27,8 @@ export class ZonesEntryEditComponent implements OnInit {
   header: string;
   hasButton: boolean;
   needDeleteButton: boolean;
+
+  subscription: Subscription[] = [];
 
   @Input()  zone: ZoneData;
   @Input()  prefill: ZoneDataEntry;
@@ -40,9 +43,9 @@ export class ZonesEntryEditComponent implements OnInit {
   constructor(private zonesEntryService: ZonesEntryService, private zoneDNSTypeService: ZonesDNSTypeService) { }
 
   ngOnInit() {
-    this.needDelete = this.entry ? true : false;
+    this.needDeleteButton = this.entry ? true : false;
     this.header = this.entry ? "Modification" : "Ajout";
-    this.hasDelete.emit( this.needDelete );
+    this.hasDelete.emit( this.needDeleteButton );
     this.hasButton = this.button ? false : true;
     //if( /* this.title.hasObservers()*/ )
     if( this.title.observers.length > 0 )
@@ -95,6 +98,7 @@ export class ZonesEntryEditComponent implements OnInit {
       )
     });
     this.propagateValidity();
+    this.subscribeButtonEvent();
 
     this.getZoneDNSType();
     this.DNSTypeValueChanged();
@@ -104,26 +108,56 @@ export class ZonesEntryEditComponent implements OnInit {
     this.resetValue = this.myForm.value;
   }
 
+  ngOnDestroy()
+  {
+    for (let sub of this.subscription)
+    {
+      sub.unsubscribe();
+    }
+  }
+
+  lazyUnsubscribe(o: Subscription)
+  {
+    this.subscription.push(o);
+  }
+
   propagateValidity()
   {
-    this.myForm.statusChanges.subscribe(
-      data =>
-      {
-        this.canSubmit.emit(!this.myForm.valid);
-      }
+    this.lazyUnsubscribe(
+      this.myForm.statusChanges.subscribe(
+        data =>
+        {
+          this.canSubmit.emit(!this.myForm.valid);
+        }
+      )
     );
+  }
+
+  subscribeButtonEvent()
+  {
+    if( this.button )
+      this.lazyUnsubscribe(
+        this.button.subscribe(
+          (buttonAction) =>
+          {
+            alert(buttonAction);
+          }
+        )
+      );
   }
 
   getZoneDNSType()
   {
     this.zoneDNSType = [];
-    this.zoneDNSTypeService.getDNSType().subscribe(
-      res =>
-      {
-        this.zoneDNSType = res;
-        // Apply validator
-        this.updateDataValidator(this.myForm.get('type').value);
-      }
+    this.lazyUnsubscribe(
+      this.zoneDNSTypeService.getDNSType().subscribe(
+        res =>
+        {
+          this.zoneDNSType = res;
+          // Apply validator
+          this.updateDataValidator(this.myForm.get('type').value);
+        }
+      )
     );
   }
 
@@ -151,18 +185,21 @@ export class ZonesEntryEditComponent implements OnInit {
     this.myForm.get('data').updateValueAndValidity();
   }
 
-  DNSTypeValueChanged() {
-    this.myForm.get('type').valueChanges.subscribe(
-      (newtype: string) =>
-      {
-        var upValue = newtype.toLocaleUpperCase();
-        if( upValue != newtype )
+  DNSTypeValueChanged()
+  {
+    this.lazyUnsubscribe(
+      this.myForm.get('type').valueChanges.subscribe(
+        (newtype: string) =>
         {
-          this.myForm.get('type').setValue(upValue);
-          return;
+          var upValue = newtype.toLocaleUpperCase();
+          if( upValue != newtype )
+          {
+            this.myForm.get('type').setValue(upValue);
+            return;
+          }
+          this.updateDataValidator(newtype);
         }
-        this.updateDataValidator(newtype);
-      }
+      )
     );
   }
 

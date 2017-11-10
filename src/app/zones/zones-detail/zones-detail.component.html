@@ -88,10 +88,10 @@
 	<!--<zones-entry-edit [zone]="zone" [(entry)]="zone.entries[0]"></zones-entry-edit>-->
 </div>
 
-<ng-template #modalContent let-c="close" let-d="dismiss">
+<ng-template #modalContent let-dismiss="dismiss">
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">{{modalView.title}}</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<h5 class="modal-title">{{modalView.title}}</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -105,9 +105,9 @@
 				</zones-entry-edit>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" (click)="onReset()">Cancel</button>
-				<button *ngIf="modalView.hasDelete" type="button" class="btn btn-danger" (click)="onDelete()"><i class="fa fa-trash"></i> Delete</button>
-				<button type="button" class="btn btn-primary" [disabled]="modalView.canSubmit">Submit</button>
+				<button type="button" class="btn btn-secondary" (click)="onEditFormReset()">Cancel</button>
+				<button *ngIf="modalView.hasDelete" type="button" class="btn btn-danger" (click)="onEditFormDelete()"><i class="fa fa-trash"></i> Delete</button>
+				<button type="button" class="btn btn-primary" [disabled]="modalView.canSubmit" (click)="onEditFormSubmit()">Submit</button>
 			</div>
 </ng-template>
 

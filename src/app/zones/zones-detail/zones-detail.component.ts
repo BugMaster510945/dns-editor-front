@@ -3,7 +3,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 import { FormControl, FormGroup } from '@angular/forms';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { Error } from '../../shared/error/error';
 import { AuthHttpSession } from '../../check-auth/auth.service';
@@ -28,6 +28,7 @@ class modalData
 export class ZonesDetailComponent implements OnInit {
 
   modalView: modalData;
+  modalWindow: NgbModalRef;
   zone: ZoneData;
   error: Error;
   currentEntry: ZoneDataEntry;
@@ -72,14 +73,38 @@ export class ZonesDetailComponent implements OnInit {
   edit(modele, entry: ZoneDataEntry)
   {
     this.currentEntry = entry;
-    this.modalService.open(modele).result.then((result) => {
+    //this.modalWindow = this.modalService.open(modele).result.then((result) => {
+    this.modalWindow = this.modalService.open(modele, 
+      {
+        beforeDismiss: () => 
+        {
+          this.modalView.button.emit(ZonesEntryEditOperation.cancel);
+          return true;
+        }
+      }
+    );
+    this.modalWindow.result.then((result) => {
       //this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
-      //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      //this.modalView.button.emit(ZonesEntryEditOperation.cancel);
     });
   }
 
-  addEntry()
+  onEditFormReset()
   {
+    this.modalView.button.emit(ZonesEntryEditOperation.cancel);
+    this.modalWindow.dismiss();
+  }
+
+  onEditFormDelete()
+  {
+    this.modalView.button.emit(ZonesEntryEditOperation.delete);
+    this.modalWindow.close();
+  }
+
+  onEditFormSubmit()
+  {
+    this.modalView.button.emit(ZonesEntryEditOperation.save);
+    this.modalWindow.close();
   }
 }
