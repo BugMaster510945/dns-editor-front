@@ -83,11 +83,6 @@
 	</div>
 </div>
 
-<div class="container" style="width: 90%; height: 400px; border: solid 1px black">
-	<zones-entry-edit [zone]="zone" (entry)="addEntry()"></zones-entry-edit>
-	<!--<zones-entry-edit [zone]="zone" [(entry)]="zone.entries[0]"></zones-entry-edit>-->
-</div>
-
 <ng-template #modalContent let-dismiss="dismiss">
 			<div class="modal-header">
 				<h5 class="modal-title">{{modalView.title}}</h5>
@@ -97,6 +92,7 @@
 			</div>
 			<div class="modal-body">
 				<zones-entry-edit [zone]="zone" [(entry)]="currentEntry"
+					[prefill]="myForm.value | filterToEntry"
 					(title)="modalView.title=$event"
 					(hasDelete)="modalView.hasDelete=$event"
 					(canSubmit)="modalView.canSubmit=$event"
@@ -110,8 +106,6 @@
 				<button type="button" class="btn btn-primary" [disabled]="modalView.canSubmit" (click)="onEditFormSubmit()">Submit</button>
 			</div>
 </ng-template>
-
-<button class="btn btn-lg btn-outline-primary" (click)="modal.open(content).result">Launch demo modal</button>
 
 <!--<form id="rr-add">-->
 <form novalidate [formGroup]="myForm">
@@ -142,7 +136,7 @@
 					<input type="text" class="form-control" placeholder="Data's filter" aria-label="Data's filter" formControlName="filter_data">
 				</td>
 				<td class="text-center">
-					<button type="buctton" class="btn btn-xs btn-outline-success"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+					<button type="button" class="btn btn-xs btn-outline-success" (click)="edit(modalContent, null)"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
 				</td>
 			</tr>
 		</thead>

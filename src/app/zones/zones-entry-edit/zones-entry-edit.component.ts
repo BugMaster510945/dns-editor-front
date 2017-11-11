@@ -1,7 +1,8 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter, Input, Output, ViewChild, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ZonesDNSTypeService } from '../services/zones-dns-type.service';
 import { ZonesEntryService } from '../services/zones-entry.service';
 import { ZoneData, ZoneDataEntry, DNSType, DNSTypeList } from '../services/zone-data';
@@ -11,6 +12,23 @@ export enum ZonesEntryEditOperation
   save,
   delete,
   cancel
+}
+
+export enum ZonesEntryEditResultOperationStatus
+{
+  canceled,
+  added,
+  deleted,
+  modified,
+  error
+}
+
+export class ZonesEntryEditResultOperation
+{
+  operationStatus: ZonesEntryEditResultOperationStatus;
+  oldEntry: ZoneDataEntry;
+  newEntry: ZoneDataEntry;
+  message: string;
 }
 
 @Component({
@@ -39,8 +57,18 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
   @Output() title = new EventEmitter<string>();
   @Output() hasDelete = new EventEmitter<boolean>();
   @Output() canSubmit = new EventEmitter<boolean>();
+  @Output() operationStatus = new EventEmitter<ZonesEntryEditResultOperation>();
 
-  constructor(private zonesEntryService: ZonesEntryService, private zoneDNSTypeService: ZonesDNSTypeService) { }
+  @ViewChild('modalContentValidTpl')
+  private modalContentValidTpl: TemplateRef<any>;
+
+  constructor(
+    private zonesEntryService: ZonesEntryService, 
+    private zoneDNSTypeService: ZonesDNSTypeService,
+    private modalService: NgbModal
+  )
+  {
+  }
 
   ngOnInit() {
     this.needDeleteButton = this.entry ? true : false;
@@ -66,7 +94,7 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
       ),
       ttl:  new FormControl(
         this.entry   && this.entry.ttl   ||
-        this.prefill && this.prefill.ttl ||
+        this.prefill && (this.prefill.ttl!=NaN) && this.prefill.ttl ||
         this.zone.minimum                ||
         '',
         [
@@ -140,7 +168,25 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
         this.button.subscribe(
           (buttonAction) =>
           {
-            alert(buttonAction);
+            switch(buttonAction)
+            {
+              case ZonesEntryEditOperation.save:
+              { 
+                this.onSubmit();
+                break; 
+              } 
+              case ZonesEntryEditOperation.delete:
+              { 
+                this.onDelete();
+                break; 
+              } 
+              //case ZonesEntryEditOperation.cancel:
+              default:
+              { 
+                this.onReset();
+                break; 
+              }
+            }
           }
         )
       );
@@ -212,9 +258,26 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
   {
     this.myForm.reset(this.resetValue);
     this.updateDataValidator(this.resetValue.type);
+
+    let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
+    retour.operationStatus = ZonesEntryEditResultOperationStatus.canceled;
+    
+    this.operationStatus.emit(retour);
   }
 
   onDelete()
   {
+    this.modalService.open(this.modalContentValidTpl).result.then(
+      (result) =>
+      {
+        alert(result);
+        //this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) =>
+      {
+        alert(false);
+      //this.modalView.button.emit(ZonesEntryEditOperation.cancel);
+      }
+    );
   }
 }
