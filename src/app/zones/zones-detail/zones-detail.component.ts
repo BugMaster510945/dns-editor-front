@@ -92,7 +92,6 @@ export class ZonesDetailComponent implements OnInit {
 
   onEditFormReset()
   {
-    this.modalView.button.emit(ZonesEntryEditOperation.cancel);
     this.modalWindow.dismiss();
   }
 

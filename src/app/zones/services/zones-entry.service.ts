@@ -15,13 +15,33 @@ export class ZonesEntryService extends BaseService
     super();
   }
 
-  private getEntryUrl(zone: ZoneData,  data: ZoneDataEntry)
+  private getEntryUrl(zone: ZoneData, data: ZoneDataEntry = null)
   {
-    return '/api/v1/zones/' + zone.name + '/entries/' + data.name;
+    if( data == null )
+      return '/api/v1/zones/' + zone.name + '/entries/';
+    else
+      return '/api/v1/zones/' + zone.name + '/entries/' + data.name;
   }
 
-  add(zone: ZoneData,  data: ZoneDataEntry): Observable<any>
+  add(zone: ZoneData, data: ZoneDataEntry): Observable<any>
   {
-    return this.http.put(this.getEntryUrl(zone, data), data);
+    return this.http.put(this.getEntryUrl(zone, data), data)
+            .catch(this.extractError);
+  }
+
+  del(zone: ZoneData, data: ZoneDataEntry): Observable<any>
+  {
+    return this.http.delete(this.getEntryUrl(zone, data), {body: data})
+            .catch(this.extractError);
+  }
+
+  update(zone: ZoneData, oldEntry: ZoneDataEntry, newEntry: ZoneDataEntry): Observable<any>
+  {
+    if( oldEntry.name == newEntry.name )
+      return this.http.patch(this.getEntryUrl(zone, oldEntry), {'old': oldEntry, 'new': newEntry})
+            .catch(this.extractError);
+    else
+      return this.http.patch(this.getEntryUrl(zone), {'old': oldEntry, 'new': newEntry})
+            .catch(this.extractError);
   }
 }

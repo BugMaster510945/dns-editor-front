@@ -19,7 +19,7 @@ export enum ZonesEntryEditResultOperationStatus
   canceled,
   added,
   deleted,
-  modified,
+  updated,
   error
 }
 
@@ -251,7 +251,60 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
 
   onSubmit()
   {
-    this.zonesEntryService.add(this.zone, this.myForm.value);
+    // Je base le test sur l'affichage du boutton suppression
+    // initialisé lors du ngOnInit
+    // Si présent ==> Modification sinon Ajout
+    if( this.needDeleteButton )
+      this.doSubmitUpdate();
+    else
+      this.doSubmitAdd();
+  }
+
+  doSubmitUpdate()
+  {
+    this.zonesEntryService.update(this.zone, this.resetValue, this.myForm.value).subscribe(
+      (response) => 
+      {
+        let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
+        retour.operationStatus = ZonesEntryEditResultOperationStatus.updated;
+        retour.oldEntry = this.resetValue;
+        retour.newEntry = this.myForm.value;
+    
+        this.operationStatus.emit(retour);
+      },
+      (error) =>
+      {
+        let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
+        retour.operationStatus = ZonesEntryEditResultOperationStatus.error;
+        retour.message = error.message;
+
+        this.operationStatus.emit(retour);
+        this.onReset();
+      }
+    );
+  }
+
+  doSubmitAdd()
+  {
+    this.zonesEntryService.add(this.zone, this.myForm.value).subscribe(
+      (response) => 
+      {
+        let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
+        retour.operationStatus = ZonesEntryEditResultOperationStatus.added;
+        retour.newEntry = this.myForm.value;
+    
+        this.operationStatus.emit(retour);
+      },
+      (error) =>
+      {
+        let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
+        retour.operationStatus = ZonesEntryEditResultOperationStatus.error;
+        retour.message = error.message;
+
+        this.operationStatus.emit(retour);
+        this.onReset();
+      }
+    );
   }
 
   onReset()
@@ -270,13 +323,36 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
     this.modalService.open(this.modalContentValidTpl).result.then(
       (result) =>
       {
-        alert(result);
-        //this.closeResult = `Closed with: ${result}`;
+        if( result )
+        {
+          this.zonesEntryService.del(this.zone, this.resetValue).subscribe(
+            (response) => 
+            {
+              let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
+              retour.operationStatus = ZonesEntryEditResultOperationStatus.deleted;
+              retour.oldEntry = this.resetValue;
+    
+              this.operationStatus.emit(retour);
+            },
+            (error) =>
+            {
+              let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
+              retour.operationStatus = ZonesEntryEditResultOperationStatus.error;
+              retour.message = error.message;
+
+              this.operationStatus.emit(retour);
+              this.onReset();
+            }
+          );
+        }
+        else
+        // On annule toute modification
+          this.onReset();
       },
       (reason) =>
       {
-        alert(false);
-      //this.modalView.button.emit(ZonesEntryEditOperation.cancel);
+        // On annule toute modification
+        this.onReset();
       }
     );
   }
