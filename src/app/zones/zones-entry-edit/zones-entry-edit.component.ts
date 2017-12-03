@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { BaseComponent } from '@app/common/base-component.service';
+
 import { ZonesDNSTypeService } from '@app/zones/services/zones-dns-type.service';
 import { ZonesEntryService } from '@app/zones/services/zones-entry.service';
 import { ZoneData, ZoneDataEntry, DNSType, DNSTypeList } from '@app/zones/services/zone-data';
@@ -37,7 +39,7 @@ export class ZonesEntryEditResultOperation
   templateUrl: './zones-entry-edit.component.html',
   styleUrls: ['./zones-entry-edit.component.scss']
 })
-export class ZonesEntryEditComponent implements OnInit, OnDestroy
+export class ZonesEntryEditComponent extends BaseComponent implements OnInit, OnDestroy
 {
   zoneDNSType: DNSTypeList;
 
@@ -69,6 +71,7 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
     private modalService: NgbModal
   )
   {
+    super();
   }
 
   ngOnInit()
@@ -151,13 +154,19 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
     this.subscription.push(o);
   }
 
+  isSubmitDisable()
+  {
+    return this.myForm.invalid || this.resetValue === undefined ||
+           ZoneDataEntry.isEqual(this.resetValue, this.myForm.value);
+  }
+
   propagateValidity()
   {
     this.lazyUnsubscribe(
       this.myForm.statusChanges.subscribe(
         data =>
         {
-          this.canSubmit.emit(!this.myForm.valid);
+          this.canSubmit.emit( this.isSubmitDisable() );
         }
       )
     );
@@ -198,7 +207,7 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
   {
     this.zoneDNSType = [];
     this.lazyUnsubscribe(
-      this.zoneDNSTypeService.getDNSType().subscribe(
+      this.zoneDNSTypeService.getDNSType(this).subscribe(
         res =>
         {
           this.zoneDNSType = res;
@@ -264,7 +273,7 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
 
   doSubmitUpdate()
   {
-    this.zonesEntryService.update(this.zone, this.resetValue, this.myForm.value).subscribe(
+    this.zonesEntryService.update(this, this.zone, this.resetValue, this.myForm.value).subscribe(
       (response) => 
       {
         let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
@@ -288,7 +297,7 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
 
   doSubmitAdd()
   {
-    this.zonesEntryService.add(this.zone, this.myForm.value).subscribe(
+    this.zonesEntryService.add(this, this.zone, this.myForm.value).subscribe(
       (response) => 
       {
         let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
@@ -327,7 +336,7 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
       {
         if( result )
         {
-          this.zonesEntryService.del(this.zone, this.resetValue).subscribe(
+          this.zonesEntryService.del(this, this.zone, this.resetValue).subscribe(
             (response) => 
             {
               let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();

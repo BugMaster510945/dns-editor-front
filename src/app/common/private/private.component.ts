@@ -2,6 +2,8 @@
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
+import { BaseComponent } from '@app/common/base-component.service';
+
 import { ZoneListData } from '@app/zones/services/zone-list-data';
 import { ZonesListService } from '@app/zones/services/zones-list.service';
 
@@ -11,18 +13,24 @@ import { ZonesListService } from '@app/zones/services/zones-list.service';
     styleUrls: ['private.component.scss']
 })
 
-export class PrivateComponent implements OnInit
+export class PrivateComponent extends BaseComponent implements OnInit
 {
-
     zones: ZoneListData[];
     currentZoneName: string;
     error: Error;
 
-    constructor(private zoneListService: ZonesListService, private route: ActivatedRoute, private router: Router) { }
+    constructor(
+      private zoneListService: ZonesListService,
+      private route: ActivatedRoute,
+      private router: Router
+    )
+    {
+      super();
+    }
 
     ngOnInit()
     {
-        this.zoneListService.getZones().subscribe(
+        this.zoneListService.getZones(this).subscribe(
             res => this.zones = res,
             err => this.error = err
         );

@@ -1,5 +1,9 @@
 <app-error [error]="error"></app-error>
 
+<div class="container" *ngIf="!zone">
+<h1 *ngIf="loading"><span class="fa fa-spinner fa-pulse fa-fw"></span></h1>
+</div>
+
 <div class="container" *ngIf="zone">
 <h1>{{zone.name}}&nbsp;<span>
 	<span *ngIf="zone.read && !zone.write" class="badge badge-info badge-pill">read</span>
@@ -40,6 +44,8 @@
 	<span *ngIf="zone.secured" placement="bottom" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Secure zone">
 		<img class="superkey" src="assets/key.svg">
 	</span>
+	<span *ngIf="!loading" class="reload"><span class="fa fa-refresh fa-fw" (click)="doUpdateZone()"></span></span>
+	<span *ngIf="loading" class="reload"><span class="fa fa-spinner fa-pulse fa-fw"></span></span>
 </span></h1>
 
 <div class="container">
@@ -97,6 +103,7 @@
 					(hasDelete)="modalView.hasDelete=$event"
 					(canSubmit)="modalView.canSubmit=$event"
 					[button]="modalView.button"
+					(operationStatus)="doUpdateZoneEntry($event)"
 				>
 				</zones-entry-edit>
 			</div>

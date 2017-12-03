@@ -4,6 +4,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 import { BaseService } from '@app/common/base-service.service';
+import { BaseComponent } from '@app/common/base-component.service';
 import { AuthHttpSession } from '@app/common/auth.service';
 
 import { ZoneData, ZoneDataEntry } from '@app/zones/services/zone-data';
@@ -25,25 +26,53 @@ export class ZonesEntryService extends BaseService
       return '/api/v1/zones/' + zone.name + '/entries/' + data.name;
   }
 
-  add(zone: ZoneData, data: ZoneDataEntry): Observable<any>
+  add(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any>
   {
+    c.setLoading();
     return this.http.put(this.getEntryUrl(zone, data), data)
-            .catch(this.extractError);
+      .map( c.setLoaded )
+      .catch((res: Response) =>
+        {
+          c.setLoaded();
+          return this.extractError(res);
+        }
+      );
   }
 
-  del(zone: ZoneData, data: ZoneDataEntry): Observable<any>
+  del(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any>
   {
+    c.setLoading();
     return this.http.delete(this.getEntryUrl(zone, data), {body: data})
-            .catch(this.extractError);
+      .map( c.setLoaded )
+      .catch((res: Response) =>
+        {
+          c.setLoaded();
+          return this.extractError(res);
+        }
+      );
   }
 
-  update(zone: ZoneData, oldEntry: ZoneDataEntry, newEntry: ZoneDataEntry): Observable<any>
+  update(c: BaseComponent, zone: ZoneData, oldEntry: ZoneDataEntry, newEntry: ZoneDataEntry): Observable<any>
   {
+    c.setLoading();
+
     if( oldEntry.name == newEntry.name )
       return this.http.patch(this.getEntryUrl(zone, oldEntry), {'old': oldEntry, 'new': newEntry})
-            .catch(this.extractError);
+        .map( c.setLoaded )
+        .catch((res: Response) =>
+          {
+            c.setLoaded();
+            return this.extractError(res);
+          }
+        );
     else
       return this.http.patch(this.getEntryUrl(zone), {'old': oldEntry, 'new': newEntry})
-            .catch(this.extractError);
+        .map( c.setLoaded )
+        .catch((res: Response) =>
+          {
+            c.setLoaded();
+            return this.extractError(res);
+          }
+        );
   }
 }

@@ -5,6 +5,17 @@ export class ZoneDataEntry
   ttl: number;
   type: string;
   data: string;
+
+  static isEqual(data1: ZoneDataEntry, data2: ZoneDataEntry): boolean
+  {
+    return data1 === data2 ||
+           data1 !== undefined &&
+           data2 !== undefined &&
+           data1.name === data2.name &&
+           data1.ttl  === data2.ttl  &&
+           data1.type === data2.type &&
+           data1.data === data2.data;
+  }
 };
 
 export class ZoneDataSecuredNsec3

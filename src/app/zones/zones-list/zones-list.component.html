@@ -1,5 +1,9 @@
 <app-error [error]="error"></app-error>
 
+<div class="container" *ngIf="loading">
+  <h1><span class="fa fa-spinner fa-pulse fa-fw"></span></h1>
+</div>
+
 <div class="col-md-6 offset-md-3 col-xs-12">
 	<div class="list-group">
 		<a *ngFor="let zone of zones" [routerLink]="['/zones', zone.name]" class="list-group-item list-group-item-action justify-content-between">

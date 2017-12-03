@@ -4,6 +4,7 @@ import { Response } from '@angular/http';
 
 import { Error } from '@app/common/error/error';
 import { AuthHttpSession } from '@app/common/auth.service';
+import { BaseComponent } from '@app/common/base-component.service';
 
 import { ZonesListService } from '@app/zones/services/zones-list.service';
 import { ZoneListData } from '@app/zones/services/zone-list-data';
@@ -13,17 +14,20 @@ import { ZoneListData } from '@app/zones/services/zone-list-data';
   templateUrl: './zones-list.component.html',
   styleUrls: ['./zones-list.component.scss']
 })
-export class ZonesListComponent implements OnInit
+export class ZonesListComponent extends BaseComponent implements OnInit
 {
 
   zones: ZoneListData[] = [];
   error: Error;
 
-  constructor(private zoneListService: ZonesListService) { }
+  constructor(private zoneListService: ZonesListService)
+  {
+    super();
+  }
 
   ngOnInit()
   {
-    this.zoneListService.getZones().subscribe(
+    this.zoneListService.getZones(this).subscribe(
       res => this.zones = res,
       err => this.error = err
     )

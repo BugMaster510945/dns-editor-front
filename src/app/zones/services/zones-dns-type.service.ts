@@ -3,8 +3,10 @@ import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 
-import { BaseService } from '@app/common/base-service.service';
 import { AuthHttpSession } from '@app/common/auth.service';
+import { BaseService } from '@app/common/base-service.service';
+import { BaseComponent } from '@app/common/base-component.service';
+
 import { DNSTypeList } from '@app/zones/services/zone-data';
 
 @Injectable()
@@ -17,17 +19,26 @@ export class ZonesDNSTypeService extends BaseService
     super();
   }
 
-  getDNSType(): Observable<DNSTypeList>
+  getDNSType(c: BaseComponent): Observable<DNSTypeList>
   {
     if( ZonesDNSTypeService.cache !== null )
       return Observable.of(ZonesDNSTypeService.cache);
 
+    c.setLoading();
     return this.http.get('/api/v1/record')
-      .map((res: Response) => {
-        let data = this.extractObject(res);
-        ZonesDNSTypeService.cache = data;
-        return data;
-      })
-      .catch(this.extractError);
+      .map((res: Response) =>
+        {
+          c.setLoaded();
+          let data = this.extractObject(res);
+          ZonesDNSTypeService.cache = data;
+          return data;
+        }
+      )
+      .catch((res: Response) =>
+        {
+          c.setLoaded();
+          return this.extractError(res);
+        }
+      );
   }
 }

@@ -3,8 +3,9 @@ import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 
-import { BaseService } from '@app/common/base-service.service';
 import { AuthHttpSession } from '@app/common/auth.service';
+import { BaseService } from '@app/common/base-service.service';
+import { BaseComponent } from '@app/common/base-component.service';
 
 import { ZoneData } from '@app/zones/services/zone-data';
 
@@ -19,16 +20,25 @@ export class ZonesDetailService extends BaseService
 
   protected getZoneUrl(name: string): string
   {
-    return '/api/v1/zones/' + name + '/entries'
+    return '/api/v1/zones/' + name + '/entries';
   }
 
-  getZoneData(name: string): Observable<ZoneData>
+  getZoneData(c: BaseComponent, name: string): Observable<ZoneData>
   {
+    c.setLoading();
     return this.http.get(this.getZoneUrl(name))
-      .map((res: Response) => {
-        let data = this.extractObject(res);
-        return data;
-      })
-      .catch(this.extractError);
+      .map((res: Response) =>
+        {
+          c.setLoaded();
+          let data = this.extractObject(res);
+          return data;
+        }
+      )
+      .catch((res: Response) =>
+        {
+          c.setLoaded();
+          return this.extractError(res);
+        }
+      );
   }
 }

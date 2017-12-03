@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { BaseService } from '@app/common/base-service.service';
+import { BaseComponent } from '@app/common/base-component.service';
 import { AuthHttpSession } from '@app/common/auth.service';
 
 import { ZoneListData } from '@app/zones/services/zone-list-data';
@@ -12,20 +13,30 @@ import { ZoneListData } from '@app/zones/services/zone-list-data';
 export class ZonesListService extends BaseService
 {
 
-    private static ZONE_LIST_URL = '/api/v1/zones';
+  private static ZONE_LIST_URL = '/api/v1/zones';
 
-    constructor(private http: AuthHttpSession)
-    {
-        super();
-    }
+  constructor(private http: AuthHttpSession)
+  {
+    super();
+  }
 
-    getZones(): Observable<ZoneListData[]>
-    {
-        return this.http.get(ZonesListService.ZONE_LIST_URL)
-            .map((res: Response) => {
-                let data = this.extractObject(res);
-                return data;
-            })
-            .catch(this.extractError);
+  getZones(c: BaseComponent): Observable<ZoneListData[]>
+  {
+    c.setLoading();
+
+    return this.http.get(ZonesListService.ZONE_LIST_URL)
+      .map((res: Response) =>
+        {
+          c.setLoaded();
+          let data = this.extractObject(res);
+          return data;
+        }
+      )
+      .catch((res: Response) =>
+        {
+          c.setLoaded();
+          return this.extractError(res);
+        }
+      );
     }
 }
