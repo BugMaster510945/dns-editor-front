@@ -1,15 +1,16 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Component, OnInit } from '@angular/core';
-//import { ReactiveFormsModule } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../check-auth/auth.service';
+
+import { AuthService } from '@app/common/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit
+{
 
   myForm: FormGroup;
   loading: boolean = false;
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private auth: AuthService) { }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     this.myForm = new FormGroup(
     {
       user: new FormControl(null, Validators.required),

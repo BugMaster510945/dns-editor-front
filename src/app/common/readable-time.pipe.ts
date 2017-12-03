@@ -5,9 +5,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({
   name: 'readableTime'
 })
-export class ReadableTimePipe implements PipeTransform {
+export class ReadableTimePipe implements PipeTransform
+{
 
-  transform(value: number): any {
+  transform(value: number): any
+  {
     var temp = value;
     var result = '';
     var years = Math.floor(temp / 31536000);

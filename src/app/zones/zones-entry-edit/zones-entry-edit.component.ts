@@ -3,9 +3,10 @@ import { Component, OnInit, OnDestroy, EventEmitter, Input, Output, ViewChild, T
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ZonesDNSTypeService } from '../services/zones-dns-type.service';
-import { ZonesEntryService } from '../services/zones-entry.service';
-import { ZoneData, ZoneDataEntry, DNSType, DNSTypeList } from '../services/zone-data';
+
+import { ZonesDNSTypeService } from '@app/zones/services/zones-dns-type.service';
+import { ZonesEntryService } from '@app/zones/services/zones-entry.service';
+import { ZoneData, ZoneDataEntry, DNSType, DNSTypeList } from '@app/zones/services/zone-data';
 
 export enum ZonesEntryEditOperation
 {
@@ -70,7 +71,8 @@ export class ZonesEntryEditComponent implements OnInit, OnDestroy
   {
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     this.needDeleteButton = this.entry ? true : false;
     this.header = this.entry ? "Modification" : "Ajout";
     this.hasDelete.emit( this.needDeleteButton );

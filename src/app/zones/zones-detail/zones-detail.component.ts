@@ -5,11 +5,12 @@ import { Response } from '@angular/http';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { Error } from '../../shared/error/error';
-import { AuthHttpSession } from '../../check-auth/auth.service';
-import { ZoneData, ZoneDataEntry } from '../services/zone-data';
-import { ZonesDetailService } from '../services/zones-detail.service';
-import { ZonesEntryEditOperation } from '../zones-entry-edit/zones-entry-edit.component';
+import { Error } from '@app/common/error/error';
+import { AuthHttpSession } from '@app/common/auth.service';
+
+import { ZoneData, ZoneDataEntry } from '@app/zones/services/zone-data';
+import { ZonesDetailService } from '@app/zones/services/zones-detail.service';
+import { ZonesEntryEditOperation } from '@app/zones/zones-entry-edit/zones-entry-edit.component';
 
 class modalData
 {
@@ -25,7 +26,8 @@ class modalData
   styleUrls: ['./zones-detail.component.scss']
 })
 
-export class ZonesDetailComponent implements OnInit {
+export class ZonesDetailComponent implements OnInit
+{
 
   modalView: modalData;
   modalWindow: NgbModalRef;
@@ -45,7 +47,8 @@ export class ZonesDetailComponent implements OnInit {
     this.modalView.button = new EventEmitter<ZonesEntryEditOperation>();
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     this.modalView.title = null;
     this.modalView.hasDelete = false;
     this.modalView.canSubmit = false;
@@ -61,7 +64,8 @@ export class ZonesDetailComponent implements OnInit {
     });
   }
 
-  getZoneData(name: string) {
+  getZoneData(name: string)
+  {
     this.zone = null;
     this.error = null;
     this.zonesDetailService.getZoneData(name).subscribe(

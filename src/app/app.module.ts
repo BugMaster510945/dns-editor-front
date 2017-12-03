@@ -10,14 +10,16 @@ import { AuthConfig } from 'angular2-jwt';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from '@app/app.component';
-import { PrivateComponent } from '@app/shared/private/private.component';
-import { ErrorComponent } from '@app/shared/error/error.component';
-import { ReadableTimePipe } from '@app/shared/readable-time.pipe';
-import { PageNotFoundComponent } from '@app/shared/page-not-found/page-not-found.component';
-import { LoginComponent } from '@app/login/login.component';
-import { CheckAuthGuard } from '@app/check-auth/check-auth.guard';
-import { AuthService, AuthHttpSession } from '@app/check-auth/auth.service';
 import { AppRoutingModule } from '@app/app-routing.module';
+
+import { PrivateComponent } from '@app/common/private/private.component';
+import { ErrorComponent } from '@app/common/error/error.component';
+import { ReadableTimePipe } from '@app/common/readable-time.pipe';
+import { PageNotFoundComponent } from '@app/common/page-not-found/page-not-found.component';
+import { LoginComponent } from '@app/common/login/login.component';
+import { CheckAuthGuard } from '@app/common/check-auth.guard';
+import { AuthService, AuthHttpSession } from '@app/common/auth.service';
+
 import { ZonesListService } from '@app/zones/services/zones-list.service';
 import { ZonesDetailService } from '@app/zones/services/zones-detail.service';
 import { ZonesDNSTypeService } from '@app/zones/services/zones-dns-type.service';

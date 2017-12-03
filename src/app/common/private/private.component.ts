@@ -1,8 +1,9 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { ZoneListData } from '../../zones/services/zone-list-data';
-import { ZonesListService } from '../../zones/services/zones-list.service';
 import { Component, OnInit } from '@angular/core';
+
+import { ZoneListData } from '@app/zones/services/zone-list-data';
+import { ZonesListService } from '@app/zones/services/zones-list.service';
 
 @Component({
     selector: 'app-private',
@@ -10,7 +11,8 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['private.component.scss']
 })
 
-export class PrivateComponent implements OnInit {
+export class PrivateComponent implements OnInit
+{
 
     zones: ZoneListData[];
     currentZoneName: string;
@@ -18,7 +20,8 @@ export class PrivateComponent implements OnInit {
 
     constructor(private zoneListService: ZonesListService, private route: ActivatedRoute, private router: Router) { }
 
-    ngOnInit() {
+    ngOnInit()
+    {
         this.zoneListService.getZones().subscribe(
             res => this.zones = res,
             err => this.error = err

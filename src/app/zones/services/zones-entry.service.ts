@@ -2,9 +2,11 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { BaseService } from '../../shared/base-service.service';
-import { AuthHttpSession } from '../../check-auth/auth.service';
-import { ZoneData, ZoneDataEntry } from './zone-data';
+
+import { BaseService } from '@app/common/base-service.service';
+import { AuthHttpSession } from '@app/common/auth.service';
+
+import { ZoneData, ZoneDataEntry } from '@app/zones/services/zone-data';
 
 @Injectable()
 export class ZonesEntryService extends BaseService

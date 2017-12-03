@@ -3,12 +3,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PrivateComponent } from '@app/shared/private/private.component';
+import { LoginComponent } from '@app/common/login/login.component';
+import { CheckAuthGuard } from '@app/common/check-auth.guard';
+import { PrivateComponent } from '@app/common/private/private.component';
+import { PageNotFoundComponent } from '@app/common/page-not-found/page-not-found.component';
+
 import { ZonesDetailComponent } from '@app/zones/zones-detail/zones-detail.component';
 import { ZonesListComponent } from '@app/zones/zones-list/zones-list.component';
-import { PageNotFoundComponent } from '@app/shared/page-not-found/page-not-found.component';
-import { LoginComponent } from '@app/login/login.component';
-import { CheckAuthGuard } from '@app/check-auth/check-auth.guard';
 
 const privateRoutes: Routes = [
 	{ path: '', redirectTo: '/zones', pathMatch: 'full' },

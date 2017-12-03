@@ -1,23 +1,27 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-export class ZoneDataEntry {
+export class ZoneDataEntry
+{
   name: string;
   ttl: number;
   type: string;
   data: string;
 };
 
-export class ZoneDataSecuredNsec3 {
+export class ZoneDataSecuredNsec3
+{
   salt: string;
   iterations: number;
 };
 
-export class ZoneDataSecured {
+export class ZoneDataSecured
+{
   zsk: number[];
   ksk: number[];
   nsec3param: ZoneDataSecuredNsec3;
 };
 
-export class ZoneData {
+export class ZoneData
+{
   name: string;
   master: string;
   responsible: string;
@@ -34,7 +38,8 @@ export class ZoneData {
 
 export type DNSTypeList = DNSType[];
 
-export class DNSType {
+export class DNSType
+{
   name: string;
   regexp: string;
 }

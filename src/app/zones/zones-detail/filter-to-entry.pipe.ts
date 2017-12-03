@@ -1,11 +1,12 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Pipe, PipeTransform } from '@angular/core';
-import { ZoneDataEntry } from '../services/zone-data';
+import { ZoneDataEntry } from '@app/zones/services/zone-data';
 
 @Pipe({
   name: 'filterToEntry'
 })
-export class FilterToEntryPipe implements PipeTransform {
+export class FilterToEntryPipe implements PipeTransform
+{
 
   transform(value: any, args?: any): ZoneDataEntry {
     let retour: ZoneDataEntry = new ZoneDataEntry();

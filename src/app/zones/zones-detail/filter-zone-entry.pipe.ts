@@ -1,6 +1,6 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Pipe, PipeTransform } from '@angular/core';
-import { ZoneDataEntry } from '../services/zone-data';
+import { ZoneDataEntry } from '@app/zones/services/zone-data';
 
 @Pipe({
   name: 'filterZoneEntry'
