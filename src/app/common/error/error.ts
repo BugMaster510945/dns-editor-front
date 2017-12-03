@@ -1,5 +1,6 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-export class Error {
+export class Error
+{
 
   status: number;
   message: string;

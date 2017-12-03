@@ -19,7 +19,8 @@ export class AuthService {
 
   login(user: string, password: string): Observable<boolean>
   {
-    return this.http.post('/api/v1/login', JSON.stringify({ user: user, password: password }))
+    return this.http.post('api/v1/login', JSON.stringify({ user: user, password: password }),
+                          { headers: new Headers({ "Content-Type": "application/json" }) } )
       .map((response: Response) => 
         {
           if(  ! response 
@@ -51,7 +52,6 @@ export class AuthHttpSession extends AuthHttp {
     super(new AuthConfig({
       noTokenScheme: true,
       tokenName: 'token',
-      //tokenGetter: (() => localStorage.getItem('token')),
       globalHeaders: [{'Content-Type': 'application/json'}]
     }), http, defOpts);
   }

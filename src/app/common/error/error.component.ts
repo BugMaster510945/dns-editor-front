@@ -1,19 +1,22 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { Error } from './error';
 import { Component, Input } from '@angular/core';
+
+import { Error } from '@app/common/error/error';
 
 @Component({
     selector: 'app-error',
     templateUrl: 'error.component.html'
 })
 
-export class ErrorComponent {
+export class ErrorComponent
+{
 
     @Input() error: Error;
 
     constructor() { }
 
-    hasStatus(): boolean {
+    hasStatus(): boolean
+    {
         return this.error.status !== 0;
     }
 }
