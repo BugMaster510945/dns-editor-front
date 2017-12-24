@@ -20,6 +20,7 @@ import { LoginComponent } from '@app/common/login/login.component';
 import { CheckAuthGuard } from '@app/common/check-auth.guard';
 import { AuthService, AuthHttpSession } from '@app/common/auth.service';
 
+import { NgSwaggerUIComponent } from '@app/docs/ng-swagger-ui.component';
 import { ZonesListService } from '@app/zones/services/zones-list.service';
 import { ZonesDetailService } from '@app/zones/services/zones-detail.service';
 import { ZonesDNSTypeService } from '@app/zones/services/zones-dns-type.service';
@@ -50,6 +51,7 @@ export class RavenErrorHandler implements ErrorHandler {
     PageNotFoundComponent,
     ErrorComponent,
     LoginComponent,
+    NgSwaggerUIComponent,
     ZonesListComponent,
     ZonesDetailComponent,
     ReadableTimePipe,

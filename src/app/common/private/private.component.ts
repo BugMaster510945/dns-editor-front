@@ -21,7 +21,7 @@ export class PrivateComponent extends BaseComponent implements OnInit
     constructor(
       private zoneListService: ZonesListService,
       private route: ActivatedRoute,
-      private router: Router
+      public router: Router
     )
     {
       super();

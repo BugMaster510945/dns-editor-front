@@ -31,9 +31,11 @@
 		</li>
 		<li class="breadcrumb-item breadcrumb-text" *ngIf="loading"><span class="fa fa-spinner fa-pulse fa-fw"></span></li>
     </ol>
+
+	oo
 </nav>
 
-<div class="container">
+<div [class.container]="router.url != '/docs/'" [class.container-fluid]="router.url == '/docs/'" [class.nomargin]="router.url == '/docs/'">
     <app-error [error]="error"></app-error>
     <router-outlet></router-outlet>
 </div>
