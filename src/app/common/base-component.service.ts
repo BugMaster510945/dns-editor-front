@@ -17,7 +17,8 @@ export class BaseComponent implements OnDestroy
 
   public setLoading()
   {
-    ++this.loadingLayer;
+    if( this.loadingLayer++ == 0 )
+      this.resetError()
     this.loading = true;
   }
 
