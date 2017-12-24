@@ -92,7 +92,7 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit
         '',
         [
           Validators.required,
-          Validators.pattern('(?:@|(?!-)[^.@]{1,63}(?:\.(?!-)[^.@]{1,63})*)')
+          Validators.pattern('(?:@|[^.@-][^.@]{0,62}(?:\.(?!-)[^.@]{1,63})*)')
         ]
       ),
       ttl:  new FormControl(
