@@ -2,7 +2,7 @@
     <a class="navbar-brand" href="/" [routerLink]="'/'">
 		<img src="//i.planchon.org/logo.png" height="30" class="d-inline-block align-top" alt="a Bug's Land"> DNS Manager
 	</a>
-    <ol class="breadcrumb bg-darker">
+    <ol class="breadcrumb bg-darker mr-auto">
         <li class="breadcrumb-item">
 			<a href="/" [routerLink]="'/'"><i class="nav-text fa fa-15x fa-home"></i><span class="sr-only">(current)</span></a>
         </li>
@@ -31,8 +31,7 @@
 		</li>
 		<li class="breadcrumb-item breadcrumb-text" *ngIf="loading"><span class="fa fa-spinner fa-pulse fa-fw"></span></li>
     </ol>
-
-	oo
+	<div><a class="nav-text" href="/docs/" [routerLink]="'/docs/'"><span class="fa fa-question-circle"></span></a></div>
 </nav>
 
 <div [class.container]="router.url != '/docs/'" [class.container-fluid]="router.url == '/docs/'" [class.nomargin]="router.url == '/docs/'">
