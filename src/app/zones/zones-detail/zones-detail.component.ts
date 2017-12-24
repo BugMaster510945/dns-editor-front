@@ -6,7 +6,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { BaseComponent } from '@app/common/base-component.service';
-import { Error } from '@app/common/error/error';
 import { AuthHttpSession } from '@app/common/auth.service';
 
 import { ZoneData, ZoneDataEntry } from '@app/zones/services/zone-data';
@@ -33,7 +32,6 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit
   modalView: modalData;
   modalWindow: NgbModalRef;
   zone: ZoneData;
-  error: Error;
   currentEntry: ZoneDataEntry;
 
   myForm: FormGroup;
@@ -75,17 +73,15 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit
 
   getZoneData(name: string)
   {
-    this.error = null;
     this.zonesDetailService.getZoneData(this, name).subscribe(
       res => this.zone = res,
-      err => this.error = err
+      err => {}
     );
   }
 
   edit(modele, entry: ZoneDataEntry)
   {
     this.currentEntry = entry;
-    //this.modalWindow = this.modalService.open(modele).result.then((result) => {
     this.modalWindow = this.modalService.open(modele, 
       {
         beforeDismiss: () => 
@@ -96,9 +92,9 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit
       }
     );
     this.modalWindow.result.then((result) => {
-      //this.closeResult = `Closed with: ${result}`;
+      // code is elsewhere
     }, (reason) => {
-      //this.modalView.button.emit(ZonesEntryEditOperation.cancel);
+      // code is elsewhere
     });
   }
 
@@ -121,10 +117,6 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit
   {
     switch( data.operationStatus )
     {
-      case ZonesEntryEditResultOperationStatus.error:
-    // retour.message
-        this.modalWindow.close();
-        break;
       case ZonesEntryEditResultOperationStatus.updated:
         this.zone.entries = this.zone.entries.map(
           (e: ZoneDataEntry) =>

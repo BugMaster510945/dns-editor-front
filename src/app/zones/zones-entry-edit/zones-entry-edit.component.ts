@@ -1,5 +1,5 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { Component, OnInit, OnDestroy, EventEmitter, Input, Output, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -22,8 +22,7 @@ export enum ZonesEntryEditResultOperationStatus
   canceled,
   added,
   deleted,
-  updated,
-  error
+  updated
 }
 
 export class ZonesEntryEditResultOperation
@@ -31,7 +30,6 @@ export class ZonesEntryEditResultOperation
   operationStatus: ZonesEntryEditResultOperationStatus;
   oldEntry: ZoneDataEntry;
   newEntry: ZoneDataEntry;
-  message: string;
 }
 
 @Component({
@@ -39,7 +37,7 @@ export class ZonesEntryEditResultOperation
   templateUrl: './zones-entry-edit.component.html',
   styleUrls: ['./zones-entry-edit.component.scss']
 })
-export class ZonesEntryEditComponent extends BaseComponent implements OnInit, OnDestroy
+export class ZonesEntryEditComponent extends BaseComponent implements OnInit
 {
   zoneDNSType: DNSTypeList;
 
@@ -141,18 +139,6 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit, On
     this.resetValue = this.myForm.value;
   }
 
-  ngOnDestroy()
-  {
-    for (let sub of this.subscription)
-    {
-      sub.unsubscribe();
-    }
-  }
-
-  lazyUnsubscribe(o: Subscription)
-  {
-    this.subscription.push(o);
-  }
 
   isSubmitDisable()
   {
@@ -283,15 +269,7 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit, On
     
         this.operationStatus.emit(retour);
       },
-      (error) =>
-      {
-        let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
-        retour.operationStatus = ZonesEntryEditResultOperationStatus.error;
-        retour.message = error.message;
-
-        this.operationStatus.emit(retour);
-        this.onReset();
-      }
+      (error) => {}
     );
   }
 
@@ -305,16 +283,8 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit, On
         retour.newEntry = this.myForm.value;
     
         this.operationStatus.emit(retour);
-      },
-      (error) =>
-      {
-        let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
-        retour.operationStatus = ZonesEntryEditResultOperationStatus.error;
-        retour.message = error.message;
-
-        this.operationStatus.emit(retour);
-        this.onReset();
-      }
+      }, 
+      (error) => {}
     );
   }
 
@@ -345,15 +315,7 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit, On
     
               this.operationStatus.emit(retour);
             },
-            (error) =>
-            {
-              let retour : ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
-              retour.operationStatus = ZonesEntryEditResultOperationStatus.error;
-              retour.message = error.message;
-
-              this.operationStatus.emit(retour);
-              this.onReset();
-            }
+            (error) => {}
           );
         }
         else

@@ -2,31 +2,68 @@
 
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Error } from '@app/common/error';
 
-import { Error } from '@app/common/error/error';
+import { BaseComponent } from '@app/common/base-component.service';
 
 export class BaseService
 {
 
     protected extractArray(res: Response)
     {
-        let body = res.json();
-        return body || [];
+        try
+        {
+          return res && res.json() || [];
+        }
+        catch(e)
+        {
+          return [];
+        }
     }
 
-    protected extractObject(res: Response)
+    protected extractObject(res: Response);
+    protected extractObject(res: Response, c: BaseComponent);
+    protected extractObject(res: Response, c?: BaseComponent)
     {
-        let body = res.json();
-        return body || {};
+        if( c )
+          c.setLoaded();
+
+        try
+        {
+          return res && res.json() || {};
+        }
+        catch(e)
+        {
+          return {};
+        }
     }
 
-    protected extractError(res: Response)
+    protected extractError(res: Response): Observable<Error>;
+    protected extractError(res: Response, c: BaseComponent): Observable<Error>;
+    protected extractError(res: Response, c?: BaseComponent): Observable<Error>
     {
-        let error: Error = new Error(
+        let e: Error;
+        let additionnalData: any;
+        try
+        {
+          additionnalData = res && res.json() || {};
+        }
+        catch(e)
+        {
+          additionnalData = {};
+        }
+
+        e = new Error(
           res && res.status || 0, 
           res && res.statusText || 'Something went horribly wrong...', 
-          res && res.json() || {} 
+          additionnalData
         );
-        return Observable.throw(error);
+
+        if( c )
+        {
+          c.setLoaded();
+          c.handleError(e);
+        }
+        return Observable.throw(e);
     }
 }

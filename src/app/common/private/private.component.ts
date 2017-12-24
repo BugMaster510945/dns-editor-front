@@ -17,7 +17,6 @@ export class PrivateComponent extends BaseComponent implements OnInit
 {
     zones: ZoneListData[];
     currentZoneName: string;
-    error: Error;
 
     constructor(
       private zoneListService: ZonesListService,
@@ -32,7 +31,7 @@ export class PrivateComponent extends BaseComponent implements OnInit
     {
         this.zoneListService.getZones(this).subscribe(
             res => this.zones = res,
-            err => this.error = err
+            err => this.handleError(err)
         );
 
         // Init zone name with current route (if needed)

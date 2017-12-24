@@ -2,7 +2,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 
-import { Error } from '@app/common/error/error';
 import { AuthHttpSession } from '@app/common/auth.service';
 import { BaseComponent } from '@app/common/base-component.service';
 
@@ -16,9 +15,7 @@ import { ZoneListData } from '@app/zones/services/zone-list-data';
 })
 export class ZonesListComponent extends BaseComponent implements OnInit
 {
-
   zones: ZoneListData[] = [];
-  error: Error;
 
   constructor(private zoneListService: ZonesListService)
   {
@@ -29,7 +26,7 @@ export class ZonesListComponent extends BaseComponent implements OnInit
   {
     this.zoneListService.getZones(this).subscribe(
       res => this.zones = res,
-      err => this.error = err
+      err => {}
     )
   }
 }

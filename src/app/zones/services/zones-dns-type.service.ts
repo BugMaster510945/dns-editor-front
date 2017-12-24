@@ -28,16 +28,14 @@ export class ZonesDNSTypeService extends BaseService
     return this.http.get('/api/v1/record')
       .map((res: Response) =>
         {
-          c.setLoaded();
-          let data = this.extractObject(res);
+          let data = this.extractObject(res, c);
           ZonesDNSTypeService.cache = data;
           return data;
         }
       )
       .catch((res: Response) =>
         {
-          c.setLoaded();
-          return this.extractError(res);
+          return this.extractError(res, c);
         }
       );
   }

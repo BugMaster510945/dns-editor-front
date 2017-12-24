@@ -1,5 +1,8 @@
 <div *ngIf="error">
     <div class="alert alert-danger" role="alert">
         <strong *ngIf="hasStatus()">{{error.status}}</strong> {{error.message}}
+		<ul *ngIf="error.details && error.details.length != 0">
+			<li *ngFor="let item of error.details">{{ item }}</li>
+		</ul>
     </div>
 </div>

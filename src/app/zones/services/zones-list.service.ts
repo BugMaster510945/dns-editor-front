@@ -27,15 +27,13 @@ export class ZonesListService extends BaseService
     return this.http.get(ZonesListService.ZONE_LIST_URL)
       .map((res: Response) =>
         {
-          c.setLoaded();
-          let data = this.extractObject(res);
+          let data = this.extractObject(res, c);
           return data;
         }
       )
       .catch((res: Response) =>
         {
-          c.setLoaded();
-          return this.extractError(res);
+          return this.extractError(res, c);
         }
       );
     }

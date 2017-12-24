@@ -33,8 +33,7 @@ export class ZonesEntryService extends BaseService
       .map( c.setLoaded )
       .catch((res: Response) =>
         {
-          c.setLoaded();
-          return this.extractError(res);
+          return this.extractError(res, c);
         }
       );
   }
@@ -46,8 +45,7 @@ export class ZonesEntryService extends BaseService
       .map( c.setLoaded )
       .catch((res: Response) =>
         {
-          c.setLoaded();
-          return this.extractError(res);
+          return this.extractError(res, c);
         }
       );
   }
@@ -61,8 +59,7 @@ export class ZonesEntryService extends BaseService
         .map( c.setLoaded )
         .catch((res: Response) =>
           {
-            c.setLoaded();
-            return this.extractError(res);
+            return this.extractError(res, c);
           }
         );
     else
@@ -70,8 +67,7 @@ export class ZonesEntryService extends BaseService
         .map( c.setLoaded )
         .catch((res: Response) =>
           {
-            c.setLoaded();
-            return this.extractError(res);
+            return this.extractError(res, c);
           }
         );
   }
