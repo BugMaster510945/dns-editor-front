@@ -1,5 +1,5 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 
