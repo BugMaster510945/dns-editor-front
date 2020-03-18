@@ -5,49 +5,42 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Error } from '@app/common/error';
 
-export class BaseComponent implements OnDestroy
-{
-  private loadingLayer: number = 0;
-  public loading: boolean = false;
+export class BaseComponent implements OnDestroy {
+  private loadingLayer /* : number */ = 0;
+  public loading /* : boolean */ = false;
 
   public error: Error;
   protected subscription: Subscription[] = [];
 
   constructor() { }
 
-  public setLoading()
-  {
-    if( this.loadingLayer++ == 0 )
-      this.resetError()
+  public setLoading() {
+    if (this.loadingLayer++ === 0) {
+      this.resetError();
+    }
     this.loading = true;
   }
 
-  public setLoaded()
-  {
+  public setLoaded() {
     --this.loadingLayer;
-    this.loading = this.loadingLayer != 0;
+    this.loading = this.loadingLayer !== 0;
   }
 
-  public handleError(e: Error)
-  {
+  public handleError(e: Error) {
     this.error = e;
   }
 
-  public resetError()
-  {
+  public resetError() {
     this.error = undefined;
   }
 
-  public ngOnDestroy()
-  {
-    for (let sub of this.subscription)
-    {
+  public ngOnDestroy() {
+    for (const sub of this.subscription) {
       sub.unsubscribe();
     }
   }
 
-  public lazyUnsubscribe(o: Subscription): Subscription
-  {
+  public lazyUnsubscribe(o: Subscription): Subscription {
     this.subscription.push(o);
     return o;
   }

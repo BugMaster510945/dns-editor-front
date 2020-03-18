@@ -67,9 +67,9 @@ export class RavenErrorHandler implements ErrorHandler {
     AppRoutingModule
   ],
   providers: [
-    //{ provide: ErrorHandler, useClass: RavenErrorHandler },
-    CheckAuthGuard, 
-    AuthService, 
+    // { provide: ErrorHandler, useClass: RavenErrorHandler },
+    CheckAuthGuard,
+    AuthService,
     AuthHttpSession,
     ZonesListService,
     ZonesDetailService,

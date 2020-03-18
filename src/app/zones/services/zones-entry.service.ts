@@ -10,65 +10,53 @@ import { AuthHttpSession } from '@app/common/auth.service';
 import { ZoneData, ZoneDataEntry } from '@app/zones/services/zone-data';
 
 @Injectable()
-export class ZonesEntryService extends BaseService
-{
+export class ZonesEntryService extends BaseService {
 
-  constructor(private http: AuthHttpSession)
-  {
+  constructor(private http: AuthHttpSession) {
     super();
   }
 
-  private getEntryUrl(zone: ZoneData, data: ZoneDataEntry = null)
-  {
-    if( data == null )
+  private getEntryUrl(zone: ZoneData, data: ZoneDataEntry = null) {
+    if (data == null) {
       return '/api/v1/zones/' + zone.name + '/entries/';
-    else
+    } else {
       return '/api/v1/zones/' + zone.name + '/entries/' + data.name;
+    }
   }
 
-  add(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any>
-  {
+  add(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any> {
     c.setLoading();
     return this.http.put(this.getEntryUrl(zone, data), data)
-      .map( c.setLoaded )
-      .catch((res: Response) =>
-        {
-          return this.extractError(res, c);
-        }
-      );
+      .map(c.setLoaded)
+      .catch((res: Response) => {
+        return this.extractError(res, c);
+      });
   }
 
-  del(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any>
-  {
+  del(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any> {
     c.setLoading();
-    return this.http.delete(this.getEntryUrl(zone, data), {body: data})
-      .map( c.setLoaded )
-      .catch((res: Response) =>
-        {
-          return this.extractError(res, c);
-        }
-      );
+    return this.http.delete(this.getEntryUrl(zone, data), { body: data })
+      .map(c.setLoaded)
+      .catch((res: Response) => {
+        return this.extractError(res, c);
+      });
   }
 
-  update(c: BaseComponent, zone: ZoneData, oldEntry: ZoneDataEntry, newEntry: ZoneDataEntry): Observable<any>
-  {
+  update(c: BaseComponent, zone: ZoneData, oldEntry: ZoneDataEntry, newEntry: ZoneDataEntry): Observable<any> {
     c.setLoading();
 
-    if( oldEntry.name == newEntry.name )
-      return this.http.patch(this.getEntryUrl(zone, oldEntry), {'old': oldEntry, 'new': newEntry})
-        .map( c.setLoaded )
-        .catch((res: Response) =>
-          {
-            return this.extractError(res, c);
-          }
-        );
-    else
-      return this.http.patch(this.getEntryUrl(zone), {'old': oldEntry, 'new': newEntry})
-        .map( c.setLoaded )
-        .catch((res: Response) =>
-          {
-            return this.extractError(res, c);
-          }
-        );
+    if (oldEntry.name === newEntry.name) {
+      return this.http.patch(this.getEntryUrl(zone, oldEntry), { old: oldEntry, new: newEntry })
+        .map(c.setLoaded)
+        .catch((res: Response) => {
+          return this.extractError(res, c);
+        });
+    } else {
+      return this.http.patch(this.getEntryUrl(zone), { old: oldEntry, new: newEntry })
+        .map(c.setLoaded)
+        .catch((res: Response) => {
+          return this.extractError(res, c);
+        });
+    }
   }
 }

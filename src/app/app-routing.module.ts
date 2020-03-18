@@ -13,25 +13,25 @@ import { ZonesDetailComponent } from '@app/zones/zones-detail/zones-detail.compo
 import { ZonesListComponent } from '@app/zones/zones-list/zones-list.component';
 
 const privateRoutes: Routes = [
-	{ path: '', redirectTo: '/zones', pathMatch: 'full' },
-	{ path: 'zones', component: ZonesListComponent },
-	{ path: 'zones/:name', component: ZonesDetailComponent },
-  { path: 'docs',  redirectTo: '/docs/', pathMatch: 'full' },
-	{ path: 'docs/', component: NgSwaggerUIComponent },
-	{ path: '**', component: PageNotFoundComponent }
+  { path: '', redirectTo: '/zones', pathMatch: 'full' },
+  { path: 'zones', component: ZonesListComponent },
+  { path: 'zones/:name', component: ZonesDetailComponent },
+  { path: 'docs', redirectTo: '/docs/', pathMatch: 'full' },
+  { path: 'docs/', component: NgSwaggerUIComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 const appRoutes: Routes = [
-	{ path: 'login', component: LoginComponent },
-	{ path: '',      component: PrivateComponent, children: privateRoutes, canActivate: [CheckAuthGuard] }
+  { path: 'login', component: LoginComponent },
+  { path: '', component: PrivateComponent, children: privateRoutes, canActivate: [CheckAuthGuard] }
 ];
 
 @NgModule({
-	imports: [
-		RouterModule.forRoot(appRoutes)
-	],
-	exports: [
-		RouterModule
-	]
+  imports: [
+    RouterModule.forRoot(appRoutes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class AppRoutingModule { }

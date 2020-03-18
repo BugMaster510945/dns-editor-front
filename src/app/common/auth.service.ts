@@ -11,38 +11,36 @@ export class AuthService {
 
   redirectUrl: string;
 
-  constructor(private http: Http, private router: Router) {}
+  constructor(private http: Http, private router: Router) { }
 
   checkCredentials(): boolean {
     return tokenNotExpired();
   }
 
-  login(user: string, password: string): Observable<boolean>
-  {
-    return this.http.post('api/v1/login', JSON.stringify({ user: user, password: password }),
-                          { headers: new Headers({ "Content-Type": "application/json" }) } )
-      .map((response: Response) => 
-        {
-          if(  ! response 
-            ||   response.status !== 201
-            || ! response.headers
-            || ! response.headers.has('Token') )
-            return false;
-
-          localStorage.setItem('token', response.headers.get('Token'));
-
-          let retour = tokenNotExpired();
-          if( retour )
-          {
-            if( this.redirectUrl )
-              this.router.navigate([this.redirectUrl]);
-            else
-              this.router.navigate(['/']);
-          }
-          return tokenNotExpired();
+  login(user: string, password: string): Observable<boolean> {
+    return this.http.post('api/v1/login', JSON.stringify({ user, password }),
+      { headers: new Headers({ 'Content-Type': 'application/json' }) })
+      .map((response: Response) => {
+        if (!response
+          || response.status !== 201
+          || !response.headers
+          || !response.headers.has('Token')) {
+          return false;
         }
-      );
-    }
+
+        localStorage.setItem('token', response.headers.get('Token'));
+
+        const retour = tokenNotExpired();
+        if (retour) {
+          if (this.redirectUrl) {
+            this.router.navigate([this.redirectUrl]);
+          } else {
+            this.router.navigate(['/']);
+          }
+        }
+        return tokenNotExpired();
+      });
+  }
 }
 
 @Injectable()
@@ -52,19 +50,17 @@ export class AuthHttpSession extends AuthHttp {
     super(new AuthConfig({
       noTokenScheme: true,
       tokenName: 'token',
-      globalHeaders: [{'Content-Type': 'application/json'}]
+      globalHeaders: [{ 'Content-Type': 'application/json' }]
     }), http, defOpts);
   }
 
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
     return super.request(url, options)
       .map(
-        (response) =>
-        {
-          if(  response
+        (response) => {
+          if (response
             && response.headers
-            && response.headers.has('Token') )
-          {
+            && response.headers.has('Token')) {
             localStorage.setItem('token', response.headers.get('Token'));
           }
           return response;

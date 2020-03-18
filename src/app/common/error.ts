@@ -1,14 +1,12 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-export class Error
-{
+export class Error {
   status: number;
   message: string;
-  details: Array<String>;
+  details: Array<string>;
   filename: string;
   fileline: number;
 
-  constructor(status: number, message: string, obj?: any)
-  {
+  constructor(status: number, message: string, obj?: any) {
     this.status = status;
     this.message = obj && obj.message || message;
     this.details = obj && obj.details || [];

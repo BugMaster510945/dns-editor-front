@@ -8,42 +8,39 @@ import { ZoneListData } from '@app/zones/services/zone-list-data';
 import { ZonesListService } from '@app/zones/services/zones-list.service';
 
 @Component({
-    selector: 'app-private',
-    templateUrl: 'private.component.html',
-    styleUrls: ['private.component.scss']
+  selector: 'app-private',
+  templateUrl: 'private.component.html',
+  styleUrls: ['private.component.scss']
 })
 
-export class PrivateComponent extends BaseComponent implements OnInit
-{
-    zones: ZoneListData[];
-    currentZoneName: string;
+export class PrivateComponent extends BaseComponent implements OnInit {
+  zones: ZoneListData[];
+  currentZoneName: string;
 
-    constructor(
-      private zoneListService: ZonesListService,
-      private route: ActivatedRoute,
-      public router: Router
-    )
-    {
-      super();
-    }
+  constructor(
+    private zoneListService: ZonesListService,
+    private route: ActivatedRoute,
+    public router: Router
+  ) {
+    super();
+  }
 
-    ngOnInit()
-    {
-        this.zoneListService.getZones(this).subscribe(
-            res => this.zones = res,
-            err => this.handleError(err)
-        );
+  ngOnInit() {
+    this.zoneListService.getZones(this).subscribe(
+      res => this.zones = res,
+      err => this.handleError(err)
+    );
 
-        // Init zone name with current route (if needed)
-        this.route.firstChild.params.subscribe((params: { name: string }) => {
-            this.currentZoneName = params.name;
-        });
+    // Init zone name with current route (if needed)
+    this.route.firstChild.params.subscribe((params: { name: string }) => {
+      this.currentZoneName = params.name;
+    });
 
-        // Update zone name each time the router is used
-        this.router.events
-            .filter(event => event instanceof NavigationEnd)
-            .subscribe((event: NavigationEnd) => {
-                this.currentZoneName = event.url.replace('/zones', '').replace('/', '');
-            });
-    }
+    // Update zone name each time the router is used
+    this.router.events
+      .filter(event => event instanceof NavigationEnd)
+      .subscribe((event: NavigationEnd) => {
+        this.currentZoneName = event.url.replace('/zones', '').replace('/', '');
+      });
+  }
 }

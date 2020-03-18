@@ -13,20 +13,17 @@ import { ZoneListData } from '@app/zones/services/zone-list-data';
   templateUrl: './zones-list.component.html',
   styleUrls: ['./zones-list.component.scss']
 })
-export class ZonesListComponent extends BaseComponent implements OnInit
-{
+export class ZonesListComponent extends BaseComponent implements OnInit {
   zones: ZoneListData[] = [];
 
-  constructor(private zoneListService: ZonesListService)
-  {
+  constructor(private zoneListService: ZonesListService) {
     super();
   }
 
-  ngOnInit()
-  {
+  ngOnInit() {
     this.zoneListService.getZones(this).subscribe(
       res => this.zones = res,
-      err => {}
-    )
+      err => { }
+    );
   }
 }
