@@ -1,7 +1,7 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 
 import { Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable, throwError, } from 'rxjs';
 import { Error } from '@app/common/error';
 
 import { BaseComponent } from '@app/common/base-component.service';
@@ -16,8 +16,8 @@ export class BaseService {
     }
   }
 
-  protected extractObject(res: Response);
-  protected extractObject(res: Response, c: BaseComponent);
+  /* protected extractObject(res: Response);
+  protected extractObject(res: Response, c: BaseComponent); */
   protected extractObject(res: Response, c?: BaseComponent) {
     if (c) {
       c.setLoaded();
@@ -30,8 +30,8 @@ export class BaseService {
     }
   }
 
-  protected extractError(res: Response): Observable<Error>;
-  protected extractError(res: Response, c: BaseComponent): Observable<Error>;
+  /* protected extractError(res: Response): Observable<Error>;
+  protected extractError(res: Response, c: BaseComponent): Observable<Error>; */
   protected extractError(res: Response, c?: BaseComponent): Observable<Error> {
     let e: Error;
     let additionnalData: any;
@@ -52,6 +52,6 @@ export class BaseService {
       c.setLoaded();
       c.handleError(e);
     }
-    return Observable.throw(e);
+    return throwError(e);
   }
 }

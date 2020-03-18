@@ -1,7 +1,6 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { Error } from '@app/common/error';
 
