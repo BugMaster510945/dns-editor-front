@@ -5,36 +5,33 @@ import { ZoneDataEntry } from '@app/zones/services/zone-data';
 @Pipe({
   name: 'filterZoneEntry'
 })
-export class FilterZoneEntryPipe implements PipeTransform
-{
+export class FilterZoneEntryPipe implements PipeTransform {
 
-  transform(value: ZoneDataEntry[], f_name: any, f_ttl: any, f_type: any, f_data): ZoneDataEntry[]
-  {
-    if( typeof f_name !== 'string' ) f_name = '';
-    if( typeof f_ttl  !== 'string' ) f_ttl  = '';
-    if( typeof f_type !== 'string' ) f_type = '';
-    if( typeof f_data !== 'string' ) f_data = '';
+  transform(value: ZoneDataEntry[], fName: any, fTTL: any, fType: any, fData): ZoneDataEntry[] {
+    if (typeof fName !== 'string') { fName = ''; }
+    if (typeof fTTL !== 'string') { fTTL = ''; }
+    if (typeof fType !== 'string') { fType = ''; }
+    if (typeof fData !== 'string') { fData = ''; }
 
     // Prepare les filtres
-    f_name = f_name.trim().toLocaleLowerCase();
-    f_ttl  = f_ttl.trim().toLocaleLowerCase();
-    f_type = f_type.trim().toLocaleLowerCase();
-    f_data = f_data.trim().toLocaleLowerCase();
+    fName = fName.trim().toLocaleLowerCase();
+    fTTL = fTTL.trim().toLocaleLowerCase();
+    fType = fType.trim().toLocaleLowerCase();
+    fData = fData.trim().toLocaleLowerCase();
 
-    let f_no_name: boolean = f_name.length == 0;
-    let f_no_ttl:  boolean = f_ttl.length  == 0;
-    let f_no_type: boolean = f_type.length == 0;
-    let f_no_data: boolean = f_data.length == 0;
+    const fNoName: boolean = fName.length === 0;
+    const fNoTTL: boolean = fTTL.length === 0;
+    const fNoType: boolean = fType.length === 0;
+    const fNoData: boolean = fData.length === 0;
 
-    //return value.filter(
+    // return value.filter(
     return (value || []).filter(
-      (item) => 
-      {
+      (item) => {
         return true &&
-          (f_no_name || item.name.toLocaleLowerCase().includes(f_name)) &&
-          (f_no_ttl  || item.ttl.toString().includes(f_ttl)) &&
-          (f_no_type || item.type.toLocaleLowerCase().includes(f_type)) &&
-          (f_no_data || item.data.toLocaleLowerCase().includes(f_data));
+          (fNoName || item.name.toLocaleLowerCase().includes(fName)) &&
+          (fNoTTL || item.ttl.toString().includes(fTTL)) &&
+          (fNoType || item.type.toLocaleLowerCase().includes(fType)) &&
+          (fNoData || item.data.toLocaleLowerCase().includes(fData));
       }
     );
   }

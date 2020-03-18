@@ -4,19 +4,16 @@ import { Component, Input } from '@angular/core';
 import { Error } from '@app/common/error';
 
 @Component({
-    selector: 'app-error',
-    templateUrl: 'error.component.html'
+  selector: 'app-error',
+  templateUrl: 'error.component.html'
 })
 
-export class ErrorComponent
-{
+export class ErrorComponent {
+  @Input() error: Error;
 
-    @Input() error: Error;
+  constructor() { }
 
-    constructor() { }
-
-    hasStatus(): boolean
-    {
-        return this.error.status !== 0;
-    }
+  hasStatus(): boolean {
+    return this.error.status !== 0;
+  }
 }

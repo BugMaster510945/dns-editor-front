@@ -5,11 +5,10 @@ import { ZoneDataEntry } from '@app/zones/services/zone-data';
 @Pipe({
   name: 'filterToEntry'
 })
-export class FilterToEntryPipe implements PipeTransform
-{
+export class FilterToEntryPipe implements PipeTransform {
 
   transform(value: any, args?: any): ZoneDataEntry {
-    let retour: ZoneDataEntry = new ZoneDataEntry();
+    const retour: ZoneDataEntry = new ZoneDataEntry();
 
     retour.name = value && value.filter_name || '';
     retour.ttl = value && value.filter_ttl && Number(value.filter_ttl) || NaN;

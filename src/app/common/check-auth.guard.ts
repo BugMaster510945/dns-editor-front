@@ -5,19 +5,16 @@ import { Observable } from 'rxjs/Observable';
 import { AuthService } from '@app/common/auth.service';
 
 @Injectable()
-export class CheckAuthGuard implements CanActivate
-{
-  constructor(private authService: AuthService, private router: Router) {}
+export class CheckAuthGuard implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean
-  {
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    let retour: boolean = this.authService.checkCredentials();
+    const retour: boolean = this.authService.checkCredentials();
 
-    if ( ! retour )
-    {
+    if (!retour) {
       this.authService.redirectUrl = state.url;
 
       this.router.navigate(['/login']);
