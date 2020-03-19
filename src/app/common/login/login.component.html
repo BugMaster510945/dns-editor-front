@@ -1,27 +1,28 @@
 <div class="mycontainer">
 	<div class="mycontainer2">
-	<form class="form-signin" novalidate [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
-		<h2 class="form-signin-heading">Please sign in</h2>
-		<div class="form-group" [ngClass]="{ 'has-danger': myForm.get('user').invalid && myForm.get('user').touched, 'has-success': myForm.get('user').valid }">
-			<label for="inputLogin" class="sr-only">Login</label>
-			<input type="text" id="inputLogin" class="form-control form-control-success form-control-danger" formControlName="user" placeholder="Username" autofocus>
-			<span *ngIf="myForm.get('user').invalid && myForm.get('user').touched && myForm.get('user').errors">
-				<div class="alert alert-danger" *ngIf="myForm.get('user').hasError('required')">Nom d'utilisateur requis</div>
-			</span>	
-		</div>
-		<div class="form-group" [ngClass]="{ 'has-danger': myForm.get('password').invalid && myForm.get('password').touched, 'has-success': myForm.get('password').valid }">
-			<label for="inputPassword" class="sr-only">Password</label>
-			<input type="password" id="inputPassword" class="form-control form-control-success form-control-danger" formControlName="password" placeholder="Password">
-			<span *ngIf="myForm.get('password').invalid && myForm.get('password').touched && myForm.get('password').errors">
-				<div class="alert alert-danger" *ngIf="myForm.get('password').hasError('required')">Mot de passe requis</div>
-			</span>
-		</div>
-		<div style="text-align: center" class="form-group">
-			<button *ngIf="!loading" class="btn btn-lg btn-primary btn-block" [disabled]="myForm.invalid" type="submit">Sign in</button>
-			<i *ngIf="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-		</div>
-		<div *ngIf="error" class="alert alert-danger">{{error}}</div>
-	</form>
+		<form class="form-signin" novalidate [formGroup]="myForm" (ngSubmit)="onSubmit()">
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<div class="form-group" [ngClass]="{ 'has-danger': f.user.invalid && f.user.touched, 'has-success': f.user.valid }">
+				<label for="inputLogin" class="sr-only">Login</label>
+				<input type="text" id="inputLogin" class="form-control form-control-success form-control-danger" formControlName="user" placeholder="Username" autofocus>
+				<span *ngIf="f.user.invalid && f.user.touched && f.user.errors">
+					<div class="alert alert-danger" *ngIf="f.user.hasError('required')">Nom d'utilisateur requis</div>
+				</span>
+			</div>
+			<div class="form-group" [ngClass]="{ 'has-danger': f.password.invalid && f.password.touched, 'has-success': f.password.valid }">
+				<label for="inputPassword" class="sr-only">Password</label>
+				<input type="password" id="inputPassword" class="form-control form-control-success form-control-danger" formControlName="password" placeholder="Password">
+				<span *ngIf="f.password.invalid && f.password.touched && f.password.errors">
+					<div class="alert alert-danger" *ngIf="f.password.hasError('required')">Mot de passe requis</div>
+				</span>
+			</div>
+			<div style="text-align: center" class="form-group">
+				<button *ngIf="!loading" class="btn btn-lg btn-primary btn-block" [disabled]="myForm.invalid" type="submit">Sign in</button>
+				<i *ngIf="loading" class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+			</div>
+			<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+		</form>
 	</div>
-</div><!--
+</div>
+<!--
 vim: set tabstop=2 noexpandtab binary noeol: -->
