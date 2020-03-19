@@ -88,7 +88,7 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit {
     this.modalWindow = this.modalService.open(modele,
       {
         beforeDismiss: () => {
-          this.sendEntryOperation(ZonesEntryEditOperation.cancel)
+          this.sendEntryOperation(ZonesEntryEditOperation.cancel);
           return true;
         }
       }
