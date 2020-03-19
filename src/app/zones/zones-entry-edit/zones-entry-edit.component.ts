@@ -304,4 +304,7 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
       }
     );
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.myForm.controls; }
 }

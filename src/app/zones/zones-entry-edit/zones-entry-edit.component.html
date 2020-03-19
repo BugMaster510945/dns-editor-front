@@ -1,17 +1,17 @@
 <ng-template #modalContentValidTpl let-dismiss="dismiss" let-close="close">
-			<div class="modal-header">
-				<h5 class="modal-title">Confirmation de suppression</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				Vous allez supprimer l'entrée &laquo;&nbsp;{{ resetValue.name }}&nbsp;&raquo;, en êtes-vous sûr ?
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" (click)="close(false)">Cancel</button>
-				<button type="button" class="btn btn-primary" (click)="close(true)">Submit</button>
-			</div>
+	<div class="modal-header">
+		<h5 class="modal-title">Confirmation de suppression</h5>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="dismiss()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		Vous allez supprimer l'entrée &laquo;&nbsp;{{ resetValue.name }}&nbsp;&raquo;, en êtes-vous sûr ?
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" (click)="close(false)">Cancel</button>
+		<button type="button" class="btn btn-primary" (click)="close(true)">Submit</button>
+	</div>
 </ng-template>
 
 <h3 *ngIf="header">{{ header }}</h3>
@@ -20,35 +20,35 @@
 		<label for="name" class="sr-only">Nom</label>
 		<input type="text" id="name" class="form-control" placeholder="Entry's name" formControlName="name">
 		<ul class="form-error">
-			<li *ngIf="myForm.get('name').errors?.required">Please provide a entry name.</li>
-			<li *ngIf="myForm.get('name').errors?.pattern">
+			<li *ngIf="f.name.errors?.required">Please provide a entry name.</li>
+			<li *ngIf="f.name.errors?.pattern">
 				Please provide a valid entry name.
-				<span placement="bottom" ngbPopover="{{ myForm.get('name').errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
+				<span placement="bottom" ngbPopover="{{ f.name.errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
 			</li>
 		</ul>
 	</div>
 	<div class="form-group">
 		<label for="ttl" class="sr-only">Durée de vie (TTL)</label>
 		<input type="number" id="ttl" class="form-control" placeholder="Entry's TTL" formControlName="ttl">
-		<small *ngIf="!myForm.get('ttl').errors" class="form-text text-muted">Which represents {{ myForm.get('ttl').value | readableTime }}</small>
+		<small *ngIf="!f.ttl.errors" class="form-text text-muted">Which represents {{ f.ttl.value | readableTime }}</small>
 		<ul class="form-error">
-			<li *ngIf="myForm.get('ttl').errors?.required">Please provide a entry TTL.</li>
-			<li *ngIf="myForm.get('ttl').errors?.pattern">TTL must be digit (seconds).</li>
-			<li *ngIf="myForm.get('ttl').errors?.min">TTL must be greater than {{ myForm.get('ttl').errors?.min.min }}.</li>
-			<li *ngIf="myForm.get('ttl').errors?.max">TTL must be lower than {{ myForm.get('ttl').errors?.max.max }}.</li>
+			<li *ngIf="f.ttl.errors?.required">Please provide a entry TTL.</li>
+			<li *ngIf="f.ttl.errors?.pattern">TTL must be digit (seconds).</li>
+			<li *ngIf="f.ttl.errors?.min">TTL must be greater than {{ f.ttl.errors?.min.min }}.</li>
+			<li *ngIf="f.ttl.errors?.max">TTL must be lower than {{ f.ttl.errors?.max.max }}.</li>
 		</ul>
 	</div>
 	<div class="form-group">
 		<label for="type" class="sr-only">Type</label>
 		<input type="text" id="type" class="form-control" placeholder="Entry's type" formControlName="type" list="dnstypes">
 		<ul class="form-error">
-			<li *ngIf="myForm.get('type').errors?.required">Please provide a entry type.</li>
-			<li *ngIf="myForm.get('type').errors?.pattern">
+			<li *ngIf="f.type.errors?.required">Please provide a entry type.</li>
+			<li *ngIf="f.type.errors?.pattern">
 				Type must be uppercased letter.
-				<span placement="bottom" ngbPopover="{{ myForm.get('type').errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
+				<span placement="bottom" ngbPopover="{{ f.type.errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
 			</li>
-			<li *ngIf="myForm.get('type').errors?.minlength">Type must be at least {{ myForm.get('type').errors?.minlength.requiredLength }} characters.</li>
-			<li *ngIf="myForm.get('type').errors?.maxlength">Type must be {{ myForm.get('type').errors?.maxlength.requiredLength }} characters max.</li>
+			<li *ngIf="f.type.errors?.minlength">Type must be at least {{ f.type.errors?.minlength.requiredLength }} characters.</li>
+			<li *ngIf="f.type.errors?.maxlength">Type must be {{ f.type.errors?.maxlength.requiredLength }} characters max.</li>
 		</ul>
 		<datalist id="dnstypes">
 			<option *ngFor="let v of zoneDNSType" value="{{v.name}}">
@@ -58,11 +58,11 @@
 		<label for="data" class="sr-only">Donnée</label>
 		<input type="text" id="data" class="form-control" placeholder="Entry's data" formControlName="data">
 		<ul class="form-error">
-			<li *ngIf="myForm.get('data').errors?.required">Please provide a entry data.</li>
-			<li *ngIf="myForm.get('data').errors?.minlength">Data must be at least {{ myForm.get('data').errors?.minlength.requiredLength }} characters.</li>
-			<li *ngIf="myForm.get('data').errors?.pattern">
+			<li *ngIf="f.data.errors?.required">Please provide a entry data.</li>
+			<li *ngIf="f.data.errors?.minlength">Data must be at least {{ f.data.errors?.minlength.requiredLength }} characters.</li>
+			<li *ngIf="f.data.errors?.pattern">
 				Please provide a valid entry data.
-				<span placement="bottom" ngbPopover="{{ myForm.get('data').errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
+				<span placement="bottom" ngbPopover="{{ f.data.errors?.pattern.requiredPattern }}" triggers="mouseenter:mouseleave" popoverTitle="Valid value must match following regular expression"><i class="text-info fa fa-info-circle"></i></span>
 			</li>
 		</ul>
 	</div>
@@ -75,5 +75,6 @@
 		<span class="fa fa-spinner fa-pulse fa-fw"></span>
 	</div>
 	<app-error [error]="error"></app-error>
-</form><!--
+</form>
+<!--
 vim: set tabstop=2 noexpandtab binary noeol: -->

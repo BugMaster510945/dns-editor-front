@@ -31,7 +31,7 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit {
   modalView /* : ModalData */ = new ModalData();
   modalWindow?: NgbModalRef;
   zone /* : ZoneData */ = new ZoneData();
-  currentEntry /* : ZoneDataEntry */ = new ZoneDataEntry();
+  currentEntry: ZoneDataEntry | null = null;
 
   myForm: FormGroup;
 
@@ -83,7 +83,7 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit {
     }
   }
 
-  edit(modele: any, entry: ZoneDataEntry) {
+  edit(modele: any, entry: ZoneDataEntry | null) {
     this.currentEntry = entry;
     this.modalWindow = this.modalService.open(modele,
       {
@@ -146,4 +146,7 @@ export class ZonesDetailComponent extends BaseComponent implements OnInit {
         break;
     }
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.myForm.controls; }
 }
