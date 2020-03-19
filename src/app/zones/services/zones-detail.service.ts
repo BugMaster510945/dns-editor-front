@@ -1,18 +1,17 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import { Observable } from 'rxjs';
-import { Response } from '@angular/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { AuthHttpSession } from '@app/common/auth.service';
-import { BaseService } from '@app/common/base-service.service';
-import { BaseComponent } from '@app/common/base-component.service';
+import { BaseService } from '@app/common/base-service';
+import { BaseComponent } from '@app/common/base-component';
 
 import { ZoneData } from '@app/zones/services/zone-data';
 
 @Injectable()
 export class ZonesDetailService extends BaseService {
 
-  constructor(private http: AuthHttpSession) {
+  constructor(private http: HttpClient) {
     super();
   }
 
@@ -21,13 +20,8 @@ export class ZonesDetailService extends BaseService {
   }
 
   getZoneData(c: BaseComponent, name: string): Observable<ZoneData> {
-    c.setLoading();
-    return this.http.get(this.getZoneUrl(name))
-      .map((res: Response) => {
-        return this.extractObject(res, c);
-      })
-      .catch((res: Response) => {
-        return this.extractError(res, c);
-      });
+    return this.applyPipe<ZoneData>(
+      this.http.get<ZoneData>(this.getZoneUrl(name)),
+      c);
   }
 }

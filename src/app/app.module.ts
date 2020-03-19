@@ -1,12 +1,11 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
-import * as Raven from 'raven-js';
+// import * as Raven from 'raven-js';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule /* , ErrorHandler */ } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { AuthConfig } from 'angular2-jwt';
+import { JwtModule, JwtModuleOptions, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from '@app/app.component';
@@ -18,7 +17,7 @@ import { ReadableTimePipe } from '@app/common/readable-time.pipe';
 import { PageNotFoundComponent } from '@app/common/page-not-found/page-not-found.component';
 import { LoginComponent } from '@app/common/login/login.component';
 import { CheckAuthGuard } from '@app/common/check-auth.guard';
-import { AuthService, AuthHttpSession } from '@app/common/auth.service';
+import { jwtOptionsFactory, AuthService, AuthHTTPInterceptor } from '@app/common/auth.service';
 
 import { NgSwaggerUIComponent } from '@app/docs/ng-swagger-ui.component';
 import { ZonesListService } from '@app/zones/services/zones-list.service';
@@ -44,6 +43,13 @@ export class RavenErrorHandler implements ErrorHandler {
 }
 */
 
+const JwtGlobalConfig: JwtModuleOptions = {
+  jwtOptionsProvider: {
+    provide: JWT_OPTIONS,
+    useFactory: jwtOptionsFactory,
+    deps: [AuthService]
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,17 +66,22 @@ export class RavenErrorHandler implements ErrorHandler {
     FilterToEntryPipe
   ],
   imports: [
-    NgbModule.forRoot(),
+    NgbModule,
     BrowserModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
+    JwtModule.forRoot(JwtGlobalConfig),
     AppRoutingModule
   ],
   providers: [
     // { provide: ErrorHandler, useClass: RavenErrorHandler },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHTTPInterceptor,
+      multi: true,
+    },
     CheckAuthGuard,
     AuthService,
-    AuthHttpSession,
     ZonesListService,
     ZonesDetailService,
     ZonesDNSTypeService,

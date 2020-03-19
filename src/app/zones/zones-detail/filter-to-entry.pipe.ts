@@ -6,8 +6,7 @@ import { ZoneDataEntry } from '@app/zones/services/zone-data';
   name: 'filterToEntry'
 })
 export class FilterToEntryPipe implements PipeTransform {
-
-  transform(value: any, args?: any): ZoneDataEntry {
+  transform(value: any): ZoneDataEntry {
     const retour: ZoneDataEntry = new ZoneDataEntry();
 
     retour.name = value && value.filter_name || '';

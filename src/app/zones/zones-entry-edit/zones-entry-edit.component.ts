@@ -1,10 +1,10 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Component, OnInit, EventEmitter, Input, Output, ViewChild, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { BaseComponent } from '@app/common/base-component.service';
+import { BaseComponent } from '@app/common/base-component';
 
 import { ZonesDNSTypeService } from '@app/zones/services/zones-dns-type.service';
 import { ZonesEntryService } from '@app/zones/services/zones-entry.service';
@@ -24,9 +24,9 @@ export enum ZonesEntryEditResultOperationStatus {
 }
 
 export class ZonesEntryEditResultOperation {
-  operationStatus: ZonesEntryEditResultOperationStatus;
-  oldEntry: ZoneDataEntry;
-  newEntry: ZoneDataEntry;
+  operationStatus /* : ZonesEntryEditResultOperationStatus */ = ZonesEntryEditResultOperationStatus.canceled;
+  oldEntry /* : ZoneDataEntry */ = new ZoneDataEntry();
+  newEntry /* : ZoneDataEntry */ = new ZoneDataEntry();
 }
 // tslint:disable:component-selector
 @Component({
@@ -36,29 +36,29 @@ export class ZonesEntryEditResultOperation {
 })
 // tslint:enable:component-selector
 export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
-  zoneDNSType: DNSTypeList;
+  zoneDNSType: DNSTypeList = [];
 
-  myForm: FormGroup;
-  resetValue: ZoneDataEntry;
-  header: string;
-  hasButton: boolean;
-  needDeleteButton: boolean;
+  myForm /* : FormGroup */ = new FormGroup({});
+  resetValue /* : ZoneDataEntry */ = new ZoneDataEntry();
+  header?: string;
+  hasButton /* : boolean */ = false;
+  needDeleteButton /* : boolean */ = false;
 
   subscription: Subscription[] = [];
 
-  @Input() zone: ZoneData;
-  @Input() prefill: ZoneDataEntry;
-  @Input() entry: ZoneDataEntry;
+  @Input() zone?: ZoneData;
+  @Input() prefill?: ZoneDataEntry;
+  @Input() entry?: ZoneDataEntry;
   @Output() entryChange = new EventEmitter<ZoneDataEntry>();
 
-  @Input() button: EventEmitter<ZonesEntryEditOperation>;
+  @Input() button?: EventEmitter<ZonesEntryEditOperation>;
   @Output() title = new EventEmitter<string>();
   @Output() hasDelete = new EventEmitter<boolean>();
   @Output() canSubmit = new EventEmitter<boolean>();
   @Output() operationStatus = new EventEmitter<ZonesEntryEditResultOperation>();
 
   @ViewChild('modalContentValidTpl')
-  private modalContentValidTpl: TemplateRef<any>;
+  private modalContentValidTpl?: TemplateRef<any>;
 
   constructor(
     private zonesEntryService: ZonesEntryService,
@@ -76,7 +76,7 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
     // if( /* this.title.hasObservers()*/ )
     if (this.title.observers.length > 0) {
       this.title.emit(this.header);
-      this.header = null;
+      this.header = undefined;
     }
     this.myForm = new FormGroup(
       {
@@ -92,8 +92,8 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
         ttl: new FormControl(
           this.entry && this.entry.ttl ||
           this.prefill && !isNaN(this.prefill.ttl) && this.prefill.ttl ||
-          this.zone.minimum ||
-          '',
+          this.zone && this.zone.minimum ||
+          '86400',
           [
             Validators.required,
             Validators.pattern('\\d+'),
@@ -127,9 +127,12 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
 
     this.getZoneDNSType();
     this.DNSTypeValueChanged();
-    this.myForm.get('type').setValue( /* Make uppercase if needed */
-      this.myForm.get('type').value.toLocaleUpperCase()
-    );
+    const connard = this.myForm.get('type');
+    if (connard !== null) {
+      connard.setValue( /* Make uppercase if needed */
+        connard.value.toLocaleUpperCase()
+      );
+    }
     this.resetValue = this.myForm.value;
   }
 
@@ -142,7 +145,7 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
   propagateValidity() {
     this.lazyUnsubscribe(
       this.myForm.statusChanges.subscribe(
-        data => {
+        () => {
           this.canSubmit.emit(this.isSubmitDisable());
         }
       )
@@ -153,7 +156,7 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
     if (this.button) {
       this.lazyUnsubscribe(
         this.button.subscribe(
-          (buttonAction) => {
+          (buttonAction: ZonesEntryEditOperation) => {
             switch (buttonAction) {
               case ZonesEntryEditOperation.save: {
                 this.onSubmit();
@@ -182,16 +185,18 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
         res => {
           this.zoneDNSType = res;
           // Apply validator
-          this.updateDataValidator(this.myForm.get('type').value);
+          const connard = this.myForm.get('type');
+          if (connard !== null) {
+            this.updateDataValidator(connard.value);
+          }
         }
       )
     );
   }
 
   getRegexpFromType(theType: string): string {
-    const item: DNSType;
     // TODO: voir pour optimiser avec une hashmap
-    for (item of this.zoneDNSType) {
+    for (const item of this.zoneDNSType) {
       if (theType === item.name) {
         return item.regexp;
       }
@@ -200,27 +205,33 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
   }
 
   updateDataValidator(theType: string) {
-    this.myForm.get('data').setValidators([
-      Validators.required,
-      Validators.minLength(1),
-      Validators.pattern(this.getRegexpFromType(theType))
-    ]);
-    this.myForm.get('data').updateValueAndValidity();
+    const data = this.myForm.get('data');
+    if (data !== null) {
+      data.setValidators([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.pattern(this.getRegexpFromType(theType))
+      ]);
+      data.updateValueAndValidity();
+    }
   }
 
   DNSTypeValueChanged() {
-    this.lazyUnsubscribe(
-      this.myForm.get('type').valueChanges.subscribe(
-        (newtype: string) => {
-          const upValue = newtype.toLocaleUpperCase();
-          if (upValue !== newtype) {
-            this.myForm.get('type').setValue(upValue);
-            return;
+    const connard = this.myForm.get('type');
+    if (connard !== null) {
+      this.lazyUnsubscribe(
+        connard.valueChanges.subscribe(
+          (newtype: string) => {
+            const upValue = newtype.toLocaleUpperCase();
+            if (upValue !== newtype) {
+              connard.setValue(upValue);
+              return;
+            }
+            this.updateDataValidator(newtype);
           }
-          this.updateDataValidator(newtype);
-        }
-      )
-    );
+        )
+      );
+    }
   }
 
   onSubmit() {
@@ -235,29 +246,27 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
   }
 
   doSubmitUpdate() {
-    this.zonesEntryService.update(this, this.zone, this.resetValue, this.myForm.value).subscribe(
-      (response) => {
+    this.zonesEntryService.update(this, this.zone || new ZoneData(), this.resetValue, this.myForm.value).subscribe(
+      () => {
         const retour: ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
         retour.operationStatus = ZonesEntryEditResultOperationStatus.updated;
         retour.oldEntry = this.resetValue;
         retour.newEntry = this.myForm.value;
 
         this.operationStatus.emit(retour);
-      },
-      (error) => { }
+      }
     );
   }
 
   doSubmitAdd() {
-    this.zonesEntryService.add(this, this.zone, this.myForm.value).subscribe(
-      (response) => {
+    this.zonesEntryService.add(this, this.zone || new ZoneData(), this.myForm.value).subscribe(
+      () => {
         const retour: ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
         retour.operationStatus = ZonesEntryEditResultOperationStatus.added;
         retour.newEntry = this.myForm.value;
 
         this.operationStatus.emit(retour);
-      },
-      (error) => { }
+      }
     );
   }
 
@@ -275,22 +284,21 @@ export class ZonesEntryEditComponent extends BaseComponent implements OnInit {
     this.modalService.open(this.modalContentValidTpl).result.then(
       (result) => {
         if (result) {
-          this.zonesEntryService.del(this, this.zone, this.resetValue).subscribe(
-            (response) => {
+          this.zonesEntryService.del(this, this.zone || new ZoneData(), this.resetValue).subscribe(
+            () => {
               const retour: ZonesEntryEditResultOperation = new ZonesEntryEditResultOperation();
               retour.operationStatus = ZonesEntryEditResultOperationStatus.deleted;
               retour.oldEntry = this.resetValue;
 
               this.operationStatus.emit(retour);
-            },
-            (error) => { }
+            }
           );
         } else {
           // On annule toute modification
           this.onReset();
         }
       },
-      (reason) => {
+      () => {
         // On annule toute modification
         this.onReset();
       }

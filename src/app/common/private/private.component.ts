@@ -1,8 +1,9 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { filter } from 'rxjs/operators';
 
-import { BaseComponent } from '@app/common/base-component.service';
+import { BaseComponent } from '@app/common/base-component';
 
 import { ZoneListData } from '@app/zones/services/zone-list-data';
 import { ZonesListService } from '@app/zones/services/zones-list.service';
@@ -14,8 +15,8 @@ import { ZonesListService } from '@app/zones/services/zones-list.service';
 })
 
 export class PrivateComponent extends BaseComponent implements OnInit {
-  zones: ZoneListData[];
-  currentZoneName: string;
+  zones: ZoneListData[] = [];
+  currentZoneName /* : string */ = '';
 
   constructor(
     private zoneListService: ZonesListService,
@@ -31,14 +32,18 @@ export class PrivateComponent extends BaseComponent implements OnInit {
       err => this.handleError(err)
     );
 
-    // Init zone name with current route (if needed)
-    this.route.firstChild.params.subscribe((params: { name: string }) => {
-      this.currentZoneName = params.name;
-    });
+    const fc = this.route.firstChild;
+    if (fc !== null) {
+      // Init zone name with current route (if needed)
+      fc.params.subscribe((params) => {
+        this.currentZoneName = params.name;
+      });
+    }
 
     // Update zone name each time the router is used
-    this.router.events
-      .filter(event => event instanceof NavigationEnd)
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd)
+    )
       .subscribe((event: NavigationEnd) => {
         this.currentZoneName = event.url.replace('/zones', '').replace('/', '');
       });
