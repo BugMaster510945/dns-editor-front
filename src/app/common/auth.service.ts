@@ -135,7 +135,6 @@ export class AuthHTTPInterceptor implements HttpInterceptor {
           if (ev instanceof HttpResponse) {
             //// TODO:  debug ev.url.start....
             // if (ev.url && ev.url.startsWith(environment.baseUrlAPI)) {
-  console.log(ev);
             if (ev.url) {
               // var a: HttpResponse<any> = ev;
               // debugger;

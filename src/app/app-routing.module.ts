@@ -23,7 +23,7 @@ const privateRoutes: Routes = [
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', component: PrivateComponent, children: privateRoutes, canActivate: [CheckAuthGuard] }
+  { path: '', component: PrivateComponent, children: privateRoutes, canActivate: [CheckAuthGuard],  canActivateChild: [CheckAuthGuard] }
 ];
 
 @NgModule({
