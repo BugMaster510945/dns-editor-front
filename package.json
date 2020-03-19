@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "prebuild": "npm run lint",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "lint:watch": "nodemon --exec \"npm run lint || exit 1\" --ext ts,html,scss"
