@@ -23,7 +23,7 @@ export class CheckAuthGuard implements CanActivate, CanActivateChild {
 
   canActivateChild(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.canActivate(route, state);
   }
 }
