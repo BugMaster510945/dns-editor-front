@@ -1,57 +1,107 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs/operators';
 
-import { Response } from '@angular/http';
-import { Observable, throwError, } from 'rxjs';
-import { Error } from '@app/common/error';
+import { GenericError } from '@app/common/error';
+import { BaseComponent } from '@app/common/base-component';
+import { Deserializable } from '@app/common/deserializable.model';
 
-import { BaseComponent } from '@app/common/base-component.service';
+type ParameterlessConstructor<T> = new () => T;
 
 export class BaseService {
 
-  protected extractArray(res: Response) {
-    try {
-      return res && res.json() || [];
-    } catch (e) {
-      return [];
-    }
-  }
-
-  /* protected extractObject(res: Response);
-  protected extractObject(res: Response, c: BaseComponent); */
-  protected extractObject(res: Response, c?: BaseComponent) {
+  protected applyPipe<T>(obj: Observable<T>, c?: BaseComponent, errorPassthrought?: boolean): Observable<T>;
+  protected applyPipe(obj: Observable<any>, c?: BaseComponent, errorPassthrought: boolean = false): Observable<any> {
     if (c) {
-      c.setLoaded();
+      c.setLoading();
     }
-
-    try {
-      return res && res.json() || {};
-    } catch (e) {
-      return {};
-    }
-  }
-
-  /* protected extractError(res: Response): Observable<Error>;
-  protected extractError(res: Response, c: BaseComponent): Observable<Error>; */
-  protected extractError(res: Response, c?: BaseComponent): Observable<Error> {
-    let e: Error;
-    let additionnalData: any;
-
-    try {
-      additionnalData = res && res.json() || {};
-    } catch (e) {
-      additionnalData = {};
-    }
-
-    e = new Error(
-      res && res.status || 0,
-      res && res.statusText || 'Something went horribly wrong...',
-      additionnalData
+    return obj.pipe(
+      catchError(
+        (res: HttpErrorResponse) => {
+          const e = this.extractError(res);
+          if (c) {
+            c.handleError(e);
+            if (!errorPassthrought) {
+              return of(null);
+            }
+          }
+          return throwError(e);
+        }
+      ),
+      finalize(
+        () => {
+          if (c) {
+            c.setLoaded();
+          }
+        }
+      )
     );
+  }
+
+  protected applyPipeDeserialize<T extends Deserializable>(
+    type: ParameterlessConstructor<T>,
+    obj: Observable<T>,
+    c?: BaseComponent,
+    errorPassthrought?: boolean): Observable<T>;
+  protected applyPipeDeserialize(
+    type: ParameterlessConstructor<any>,
+    obj: Observable<any>,
+    c?: BaseComponent,
+    errorPassthrought: boolean = false): Observable<any> {
 
     if (c) {
-      c.setLoaded();
+      c.setLoading();
+    }
+    return obj.pipe(
+      map(
+        (data: any) => {
+          const v = new type();
+          return v.deserialize(data);
+        }
+      ),
+      catchError(
+        (res: HttpErrorResponse) => {
+          const e = this.extractError(res);
+          if (c) {
+            c.handleError(e);
+            if (!errorPassthrought) {
+              return of(null);
+            }
+          }
+          return throwError(e);
+        }
+      ),
+      finalize(
+        () => {
+          if (c) {
+            c.setLoaded();
+          }
+        }
+      )
+    );
+  }
+
+  protected extractError(res: HttpErrorResponse, c?: BaseComponent): GenericError {
+    const e = new GenericError();
+
+    if (navigator.onLine) {
+      if (res.error instanceof Error) {
+        // Client Error
+        e.setMessage(res.error.message);
+      } else {
+        // Server Error
+        e.setStatus(res.status)
+          .setMessage(res.statusText)
+          .applyObject(res.error);
+      }
+    } else {
+      e.setMessage('Navigator is offline');
+    }
+
+    if (c) {
       c.handleError(e);
     }
-    return throwError(e);
+    return e;
   }
 }
