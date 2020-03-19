@@ -2,13 +2,13 @@
 import { OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Error } from '@app/common/error';
+import { GenericError } from '@app/common/error';
 
 export class BaseComponent implements OnDestroy {
   private loadingLayer /* : number */ = 0;
   public loading /* : boolean */ = false;
 
-  public error: Error;
+  public error?: GenericError;
   protected subscription: Subscription[] = [];
 
   constructor() { }
@@ -25,7 +25,7 @@ export class BaseComponent implements OnDestroy {
     this.loading = this.loadingLayer !== 0;
   }
 
-  public handleError(e: Error) {
+  public handleError(e: GenericError) {
     this.error = e;
   }
 
