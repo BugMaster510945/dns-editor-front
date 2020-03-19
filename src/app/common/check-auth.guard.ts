@@ -1,7 +1,7 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AuthService } from '@app/common/auth.service';
 
 @Injectable()
@@ -9,16 +9,14 @@ export class CheckAuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(
-    next: ActivatedRouteSnapshot,
+    _: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    const retour: boolean = this.authService.checkCredentials();
-
-    if (!retour) {
-      this.authService.redirectUrl = state.url;
+    if (this.authService.checkCredentials()) {
+      this.authService.saveRedirectURL(state.url);
 
       this.router.navigate(['/login']);
     }
-    return retour;
+    return true;
   }
 }

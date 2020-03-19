@@ -6,8 +6,7 @@ import { ZoneDataEntry } from '@app/zones/services/zone-data';
   name: 'filterZoneEntry'
 })
 export class FilterZoneEntryPipe implements PipeTransform {
-
-  transform(value: ZoneDataEntry[], fName: any, fTTL: any, fType: any, fData): ZoneDataEntry[] {
+  transform(value: ZoneDataEntry[], fName: any, fTTL: any, fType: any, fData: any): ZoneDataEntry[] {
     if (typeof fName !== 'string') { fName = ''; }
     if (typeof fTTL !== 'string') { fTTL = ''; }
     if (typeof fType !== 'string') { fType = ''; }
@@ -35,5 +34,4 @@ export class FilterZoneEntryPipe implements PipeTransform {
       }
     );
   }
-
 }

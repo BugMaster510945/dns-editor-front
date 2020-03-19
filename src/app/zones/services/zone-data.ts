@@ -1,9 +1,9 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 export class ZoneDataEntry {
-  name: string;
-  ttl: number;
-  type: string;
-  data: string;
+  name /* : string */ = '';
+  ttl /* : number */ = 0;
+  type /* : string */ = '';
+  data /* : string */ = '';
 
   static isEqual(data1: ZoneDataEntry, data2: ZoneDataEntry): boolean {
     return data1 === data2 ||
@@ -17,34 +17,34 @@ export class ZoneDataEntry {
 }
 
 export class ZoneDataSecuredNsec3 {
-  salt: string;
-  iterations: number;
+  salt /* : string */ = '';
+  iterations /* : number */ = 0;
 }
 
 export class ZoneDataSecured {
-  zsk: number[];
-  ksk: number[];
-  nsec3param: ZoneDataSecuredNsec3;
+  zsk: number[] = [];
+  ksk: number[] = [];
+  nsec3param /* : ZoneDataSecuredNsec3 */ = new ZoneDataSecuredNsec3();
 }
 
 export class ZoneData {
-  name: string;
-  master: string;
-  responsible: string;
-  serial: number;
-  refresh: number;
-  retry: number;
-  expire: number;
-  minimum: number;
-  secured: ZoneDataSecured;
-  entries: ZoneDataEntry[];
-  read: boolean;
-  write: boolean;
+  name /* : string */ = '';
+  master /* : string */ = '';
+  responsible /* : string */ = '';
+  serial /* : number */ = 0;
+  refresh /* : number */ = 0;
+  retry /* : number */ = 0;
+  expire /* : number */ = 0;
+  minimum /* : number */ = 0;
+  secured /* : ZoneDataSecured */ = new ZoneDataSecured();
+  entries: ZoneDataEntry[] = [];
+  read /* : boolean */ = false;
+  write /* : boolean */ = false;
 }
 
 export type DNSTypeList = DNSType[];
 
 export class DNSType {
-  name: string;
-  regexp: string;
+  name /* : string */ = '';
+  regexp /* : string */ = '';
 }

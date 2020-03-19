@@ -1,7 +1,9 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import { BaseComponent } from '@app/common/base-component';
 import { AuthService } from '@app/common/auth.service';
 
 @Component({
@@ -9,39 +11,33 @@ import { AuthService } from '@app/common/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends BaseComponent implements OnInit {
 
   myForm: FormGroup;
-  loading /* : boolean */ = false;
-  error: string;
 
-  constructor(private auth: AuthService) { }
-
-  ngOnInit() {
+  constructor(private auth: AuthService, private router: Router) {
+    super();
     this.myForm = new FormGroup({
       user: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required)
     });
   }
 
-  onSubmit(event) {
-    if (this.myForm.valid) {
-      this.loading = true;
-      this.error = '';
-      this.auth.login(this.myForm.get('user').value, this.myForm.get('password').value)
-        .subscribe(
-          response => {
-            this.loading = false;
-            // Nothing to do, redirect is done by auth service
-          },
-          fail => {
-            this.loading = false;
-            this.error = 'Username or password is incorrect';
-          },
-          () => {
-            this.loading = false;
-          }
-        );
+  ngOnInit() {
+  }
+
+  onSubmit() {
+    const user = this.myForm.get('user');
+    const pass = this.myForm.get('password');
+    if (this.myForm.valid && user !== null && pass !== null) {
+      this.lazyUnsubscribe(
+        this.auth.login(this, user.value, pass.value)
+          .subscribe(
+            (url) => {
+              this.router.navigate([url]);
+            }
+          )
+      );
     }
   }
 }

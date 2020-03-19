@@ -1,7 +1,7 @@
 // vim: set tabstop=2 expandtab filetype=javascript:
 import { Component, Input } from '@angular/core';
 
-import { Error } from '@app/common/error';
+import { GenericError } from '@app/common/error';
 
 @Component({
   selector: 'app-error',
@@ -9,7 +9,7 @@ import { Error } from '@app/common/error';
 })
 
 export class ErrorComponent {
-  @Input() error: Error;
+  @Input() error /* : GenericError */ = new GenericError();
 
   constructor() { }
 

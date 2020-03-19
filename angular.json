@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "named-zone": {
+    "dns-editor-front": {
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -52,9 +52,9 @@
               "src/assets"
             ],
             "styles": [
-              "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "../node_modules/font-awesome/css/font-awesome.min.css",
-              "../node_modules/swagger-ui-dist/swagger-ui.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/font-awesome/css/font-awesome.min.css",
+              "./node_modules/swagger-ui-dist/swagger-ui.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -111,8 +111,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json"
+              "tsconfig.app.json"
             ],
             "exclude": [
               "**/node_modules/**"
