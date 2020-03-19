@@ -11,7 +11,6 @@ import { BaseComponent } from '@app/common/base-component';
 
 const LOCALSTORAGE_TOKEN_KEY = 'Token';
 const LOCALSTORAGE_TOKEN_OFFSET_KEY = 'Token-Offset';
-// const LOCALSTORAGE_REDIRECT_URL_KEY = 'Redirect-Url';
 const RESPONSE_HEADER_TOKEN = 'Token';
 
 // Utilisation statique de JwtHelperService au lieu de l'injection de dépendance
@@ -89,7 +88,7 @@ export class AuthService extends BaseService {
   }
 
 
-  checkCredentials(): boolean {
+  public isValidConnectedUser(): boolean {
     return this.getToken() !== null;
   }
 
@@ -121,6 +120,7 @@ export class AuthHTTPInterceptor implements HttpInterceptor {
   constructor(protected auth: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  console.log(req.url);
     if (req.url.startsWith('/')) {
       req = req.clone(
         {
@@ -135,6 +135,7 @@ export class AuthHTTPInterceptor implements HttpInterceptor {
           if (ev instanceof HttpResponse) {
             //// TODO:  debug ev.url.start....
             // if (ev.url && ev.url.startsWith(environment.baseUrlAPI)) {
+  console.log(ev);
             if (ev.url) {
               // var a: HttpResponse<any> = ev;
               // debugger;
