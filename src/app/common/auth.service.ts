@@ -120,7 +120,6 @@ export class AuthHTTPInterceptor implements HttpInterceptor {
   constructor(protected auth: AuthService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  console.log(req.url);
     if (req.url.startsWith('/')) {
       req = req.clone(
         {
