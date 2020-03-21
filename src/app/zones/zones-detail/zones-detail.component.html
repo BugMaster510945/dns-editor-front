@@ -121,20 +121,36 @@
 				</tr>
 				<tr>
 					<td>
-						<span class="addicon"><i class="fa fa-filter"></i></span>
-						<input type="text" class="form-control" placeholder="Name's filter" aria-label="Name's filter" formControlName="filter_name">
+						<div class="input-group addicon">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa fa-filter"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Name filter" aria-label="Name filter" formControlName="filter_name">
+						</div>
 					</td>
 					<td>
-						<span class="addicon"><i class="fa fa-filter"></i></span>
-						<input type="text" class="form-control" placeholder="TTL's filter" aria-label="TTL's filter" formControlName="filter_ttl">
+						<div class="input-group addicon">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa fa-filter"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="TTL filter" aria-label="TTL filter" formControlName="filter_ttl">
+						</div>
 					</td>
 					<td>
-						<span class="addicon"><i class="fa fa-filter"></i></span>
-						<input type="text" class="form-control" placeholder="Type's filter" aria-label="Type's filter" formControlName="filter_type">
+						<div class="input-group addicon">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa fa-filter"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Type filter" aria-label="Type filter" formControlName="filter_type">
+						</div>
 					</td>
 					<td>
-						<span class="addicon"><i class="fa fa-filter"></i></span>
-						<input type="text" class="form-control" placeholder="Data's filter" aria-label="Data's filter" formControlName="filter_data">
+						<div class="input-group addicon">
+							<div class="input-group-prepend">
+								<span class="input-group-text"><i class="fa fa-filter"></i></span>
+							</div>
+							<input type="text" class="form-control" placeholder="Data filter" aria-label="Data filter" formControlName="filter_data">
+						</div>
 					</td>
 					<td class="text-center">
 						<button type="button" class="btn btn-xs btn-outline-success" (click)="edit(modalContent, null)"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>

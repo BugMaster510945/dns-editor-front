@@ -24,29 +24,17 @@ h1 span.reload
 {
 	font-size: 0.8em;
 }
-span.addicon
+div.addicon span
 {
-	position: relative;
+  padding-right: 0.3em;
+  padding-left: 0.5em;
+  border-right: 0;
+  background-color: transparent;
 }
-span.addicon > i
+div.addicon input
 {
-	position:absolute;
-	left: 1rem;
-	top: 1.75rem; /* Firefox buggy version
-	top: 0.75rem;*/
-	color: #495057;
-	font-size: 1rem;
-}
-span.addicon + input.form-control
-{
-	padding-left: 2.25rem;
-}
-@media screen and (-webkit-min-device-pixel-ratio:0)
-{
-	span.addicon > i
-	{
-		top: 0.75rem;
-	}
+  padding-left: 0;
+  border-left: 0;
 }
 .btn-xs
 {
