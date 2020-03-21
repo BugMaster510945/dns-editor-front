@@ -33,7 +33,7 @@ export class NgSwaggerUIComponent implements OnInit {
       plugins: [
         SwaggerUIBundle.plugins.DownloadUrl
       ],
-      layout: 'StandaloneLayout',
+      layout: 'BaseLayout',
       validatorUrl: null
     });
   }
