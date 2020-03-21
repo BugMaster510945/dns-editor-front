@@ -22,6 +22,6 @@ export class ZonesDetailService extends BaseService {
   getZoneData(c: BaseComponent, name: string): Observable<ZoneData> {
     return this.applyPipe<ZoneData>(
       this.http.get<ZoneData>(this.getZoneUrl(name)),
-      c);
+      c, true);
   }
 }
