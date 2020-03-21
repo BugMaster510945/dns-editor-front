@@ -34,7 +34,7 @@
 	<div><a class="nav-text" href="/docs/" [routerLink]="'/docs/'"><span class="fa fa-question-circle"></span></a></div>
 </nav>
 
-<div [class.container]="router.url != '/docs/'" [class.container-fluid]="router.url == '/docs/'" [class.nomargin]="router.url == '/docs/'">
+<div class="container-fluid" [class.nomargin]="router.url == '/docs/'">
     <app-error [error]="error"></app-error>
     <router-outlet></router-outlet>
 </div>
