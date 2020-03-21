@@ -27,25 +27,31 @@ export class ZonesEntryService extends BaseService {
   add(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any> {
     return this.applyPipe(
       this.http.put(this.getEntryUrl(zone, data), data),
-      c);
+      c,
+      true
+    );
   }
 
   del(c: BaseComponent, zone: ZoneData, data: ZoneDataEntry): Observable<any> {
     return this.applyPipe(
       this.http.request('delete', this.getEntryUrl(zone, data), { body: data }),
-      c);
+      c,
+      true
+    );
   }
 
   update(c: BaseComponent, zone: ZoneData, oldEntry: ZoneDataEntry, newEntry: ZoneDataEntry): Observable<any> {
     if (oldEntry.name === newEntry.name) {
       return this.applyPipe(
         this.http.patch(this.getEntryUrl(zone, oldEntry), { old: oldEntry, new: newEntry }),
-        c
+        c,
+        true
       );
     } else {
       return this.applyPipe(
         this.http.patch(this.getEntryUrl(zone), { old: oldEntry, new: newEntry }),
-        c
+        c,
+        true
       );
     }
   }

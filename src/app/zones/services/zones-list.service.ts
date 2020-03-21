@@ -20,7 +20,8 @@ export class ZonesListService extends BaseService {
   getZones(c: BaseComponent): Observable<ZoneListData[]> {
     return this.applyPipe<ZoneListData[]>(
       this.http.get<ZoneListData[]>(ZonesListService.ZONE_LIST_URL),
-      c
+      c,
+      true
     );
   }
 }

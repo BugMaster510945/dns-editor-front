@@ -31,7 +31,8 @@ export class ZonesDNSTypeService extends BaseService {
           }
         )
       ),
-      c
+      c,
+      true
     );
   }
 }
