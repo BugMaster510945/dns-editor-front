@@ -1,10 +1,10 @@
 <app-error [error]="error"></app-error>
 
-<div class="container" *ngIf="!zone">
+<div class="container-md" *ngIf="!zone">
 	<h1 *ngIf="loading"><span class="fa fa-spinner fa-pulse fa-fw"></span></h1>
 </div>
 
-<div class="container" *ngIf="zone">
+<div class="container-md px-1 px-sm-2 px-md-3" *ngIf="zone">
 	<h1>{{zone.name}}&nbsp;<span>
 			<span *ngIf="zone.read && !zone.write" class="badge badge-info badge-pill">read</span>
 			<span *ngIf="zone.write" class="badge badge-warning badge-pill">write</span>
@@ -41,49 +41,45 @@
 					<div class="col text-right">{{zone.secured.nsec3param.iterations}}</div>
 				</div>
 			</ng-template>
-			<span *ngIf="zone.secured" placement="bottom" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" popoverTitle="Secure zone">
+			<span *ngIf="zone.secured" placement="auto" [ngbPopover]="popContent" triggers="hover focus" popoverTitle="Secure zone">
 				<img class="superkey" src="assets/key.svg">
 			</span>
 			<span *ngIf="!loading" class="reload"><span class="fa fa-refresh fa-fw" (click)="doUpdateZone()"></span></span>
 			<span *ngIf="loading" class="reload"><span class="fa fa-spinner fa-pulse fa-fw"></span></span>
 		</span></h1>
 
-	<div class="container">
+	<div>
 		<div class="row">
-			<div class="col-xl-5 col-lg-6 col-md-8 col-sm-12 col-12">
-				<div class="container">
-					<div class="row">
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" i18n="@@PrimaryMaster">Primary Master</div>
-						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.master}}</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" i18n="@@Responsible">Responsible</div>
-						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.responsible}}</div>
-					</div>
-					<div class="row">
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12" i18n="@@Serial">Serial</div>
-						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">{{zone.serial}}</div>
-					</div>
+			<div class="col-xl-5 col-lg-6 col-md-8 col-12">
+				<div class="row">
+					<div class="col font-weight-bold" i18n="@@PrimaryMaster">Primary Master</div>
+					<div class="col text-md-left text-right">{{zone.master}}</div>
+				</div>
+				<div class="row">
+					<div class="col font-weight-bold" i18n="@@Responsible">Responsible</div>
+					<div class="col text-md-left text-right">{{zone.responsible}}</div>
+				</div>
+				<div class="row">
+					<div class="col font-weight-bold" i18n="@@Serial">Serial</div>
+					<div class="col text-md-left text-right">{{zone.serial}}</div>
 				</div>
 			</div>
-			<div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
-				<div class="container">
-					<div class="row">
-						<div class="col" i18n="@@Refresh">Refresh</div>
-						<div class="col text-right" placement="bottom" ngbTooltip="{{zone.refresh | readableTime}}">{{zone.refresh}}</div>
-					</div>
-					<div class="row">
-						<div class="col" i18n="@@Retry">Retry</div>
-						<div class="col text-right" placement="bottom" ngbTooltip="{{zone.retry | readableTime}}">{{zone.retry}}</div>
-					</div>
-					<div class="row">
-						<div class="col" i18n="@@Expire">Expire</div>
-						<div class="col text-right" placement="bottom" ngbTooltip="{{zone.expire | readableTime}}">{{zone.expire}}</div>
-					</div>
-					<div class="row">
-						<div class="col" i18n="@@Minimum">Minimum</div>
-						<div class="col text-right" placement="bottom" ngbTooltip="{{zone.minimum | readableTime}}">{{zone.minimum}}</div>
-					</div>
+			<div class="col-xl-3 col-lg-3 col-md-4 col-12">
+				<div class="row">
+					<div class="col font-weight-bold" i18n="@@Refresh">Refresh</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.refresh | readableTime}}">{{zone.refresh}}</div>
+				</div>
+				<div class="row">
+					<div class="col font-weight-bold" i18n="@@Retry">Retry</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.retry | readableTime}}">{{zone.retry}}</div>
+				</div>
+				<div class="row">
+					<div class="col font-weight-bold" i18n="@@Expire">Expire</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.expire | readableTime}}">{{zone.expire}}</div>
+				</div>
+				<div class="row">
+					<div class="col font-weight-bold" i18n="@@Minimum">Minimum</div>
+					<div class="col text-right" placement="bottom" ngbTooltip="{{zone.minimum | readableTime}}">{{zone.minimum}}</div>
 				</div>
 			</div>
 		</div>
@@ -110,14 +106,14 @@
 
 	<!--<form id="rr-add">-->
 	<form novalidate [formGroup]="myForm">
-		<table id="records" class="table table-sm table-striped table-hover align-middle">
+		<table id="records" class="table table-sm no-table-responsive table-striped table-hover align-middle">
 			<thead class="thead-inverse">
 				<tr>
 					<th i18n="@@Name">Name</th>
 					<th i18n="@@TTL">TTL</th>
 					<th i18n="@@Type">Type</th>
 					<th i18n="@@Data">Data</th>
-					<th i18n="@@Action">Action</th>
+					<th i18n="@@Action" *ngIf="zone.write">Action</th>
 				</tr>
 				<tr>
 					<td>
@@ -152,20 +148,23 @@
 							<input type="text" class="form-control" placeholder="Data filter" aria-label="Data filter" formControlName="filter_data">
 						</div>
 					</td>
-					<td class="text-center">
-						<button type="button" class="btn btn-xs btn-outline-success" (click)="edit(modalContent, null)"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+					<td *ngIf="zone.write" class="text-center">
+						<button type="button" class="btn btn-xs btn-outline-success" (click)="edit(modalContent, null)" data-text="Ajouter"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
 					</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr *ngFor="let entry of zone.entries | filterZoneEntry:f.filter_name.value:f.filter_ttl.value:f.filter_type.value:f.filter_data.value">
-					<!--<tr *ngFor="let entry of zone.entries">-->
-					<td>{{entry.name}}</td>
-					<td><span placement="bottom" ngbTooltip="{{entry.ttl | readableTime}}">{{entry.ttl}}</span></td>
-					<td>{{entry.type}}</td>
-					<td>{{entry.data}}</td>
-					<td class="text-center">
-						<button type="button" class="btn btn-xs btn-outline-warning" (click)="edit(modalContent, entry)"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+					<td data-title="Name">{{entry.name}}</td>
+					<!-- on double le span car:
+					       - le premier annule certain css (text-indent)
+					       - le deuxieme est transforme par le tooltip
+          -->
+					<td data-title="TTL"><span><span placement="bottom" ngbTooltip="{{entry.ttl | readableTime}}">{{entry.ttl}}</span></span></td>
+					<td data-title="Type">{{entry.type}}</td>
+					<td data-title="Data">{{entry.data}}</td>
+					<td *ngIf="zone.write" class="text-center">
+						<button type="button" class="btn btn-xs btn-outline-warning" (click)="edit(modalContent, entry)" data-text="Modifier"><i class="fa fa-pencil" aria-hidden="true"></i></button>
 					</td>
 				</tr>
 			</tbody>

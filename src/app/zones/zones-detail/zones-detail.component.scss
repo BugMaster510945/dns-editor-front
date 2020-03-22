@@ -36,17 +36,75 @@ div.addicon input
   padding-left: 0;
   border-left: 0;
 }
-.btn-xs
-{
-	padding: 1px 5px;
-	font-size: 12px;
+.btn-group-xs > .btn, .btn-xs {
+	padding: .125rem .25rem;
+	font-size: .75rem;
 	line-height: 1.5;
+	border-radius: .2rem;
 }
 table
 {
-	margin-top:2em;
+	margin-top: 2em;
 }
 table.align-middle tr td
 {
 	vertical-align: middle;
+}
+
+.table>tbody>tr>td:nth-child(1),
+.table>tbody>tr>td:nth-child(4)
+{
+	word-wrap: anywhere;
+}
+
+@media only screen and (max-width: 767px) {
+	table.align-middle tr td
+	{
+		vertical-align: top;
+	}
+
+	/* Force table to not be like tables anymore */
+	.table>tbody>tr>td,
+	.table>tbody>tr>th,
+	.table>tfoot>tr>td,
+	.table>tfoot>tr>th,
+	.table>thead>tr>td,
+	.table>thead>tr>th {
+		display: block;
+		min-width: 100% !important;
+	}
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.table>thead>tr>th {
+		// display: none;
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+  
+	.table>tbody>tr>td:before {
+		position: absolute;
+		left: 0.3em; // correspond a table-sm
+		text-indent: 0; 
+		font-weight: bold;
+		content: attr(data-title);
+	}
+ 
+	.table>tbody>tr>td {
+		position: relative;
+		text-indent: 50%; 
+		border: none;
+	}
+	.table>tbody>tr>td>span {
+		text-indent: 0; 
+	}
+ 
+	.btn-group-xs > .btn, .btn-xs {
+		padding: .25rem .5rem;
+		font-size: .875rem;
+		display: block;
+		width: 100%;
+	}
+	.btn-xs:after {
+		content: " " attr(data-text);
+	}
 }
