@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { filter } from 'rxjs/operators';
 
 import { BaseComponent } from '@app/common/base-component';
+import { AuthService } from '@app/common/auth.service';
 
 import { ZoneListData } from '@app/zones/services/zone-list-data';
 import { ZonesListService } from '@app/zones/services/zones-list.service';
@@ -21,31 +22,46 @@ export class PrivateComponent extends BaseComponent implements OnInit {
   constructor(
     private zoneListService: ZonesListService,
     private route: ActivatedRoute,
+    private auth: AuthService,
     public router: Router
   ) {
     super();
   }
 
   ngOnInit() {
-    this.zoneListService.getZones(this).subscribe(
-      res => this.zones = res,
-      err => this.handleError(err)
+    this.lazyUnsubscribe(
+      this.zoneListService.getZones(this).subscribe(
+        res => this.zones = res,
+        err => this.handleError(err)
+      )
     );
 
     const fc = this.route.firstChild;
     if (fc !== null) {
       // Init zone name with current route (if needed)
-      fc.params.subscribe((params) => {
-        this.currentZoneName = params.name;
-      });
+      this.lazyUnsubscribe(
+        fc.params.subscribe((params) => {
+          this.currentZoneName = params.name;
+        })
+      );
     }
 
     // Update zone name each time the router is used
-    this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd)
-    )
-      .subscribe((event: NavigationEnd) => {
-        this.currentZoneName = event.url.replace('/zones', '').replace('/', '');
-      });
+    this.lazyUnsubscribe(
+      this.router.events
+        .pipe(
+          filter((e): e is NavigationEnd => e instanceof NavigationEnd)
+        )
+        .subscribe(
+          (event: NavigationEnd) => {
+            this.currentZoneName = event.url.replace('/zones', '').replace('/', '');
+          }
+        )
+    );
+  }
+
+  doLogout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 }

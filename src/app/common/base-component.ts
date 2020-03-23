@@ -37,6 +37,7 @@ export class BaseComponent implements OnDestroy {
     for (const sub of this.subscription) {
       sub.unsubscribe();
     }
+    this.subscription = [];
   }
 
   public lazyUnsubscribe(o: Subscription): Subscription {

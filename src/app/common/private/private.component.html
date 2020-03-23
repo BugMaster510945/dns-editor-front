@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-darker sticky-top">
-    <a class="navbar-brand" href="/" [routerLink]="'/'">
+	<a class="navbar-brand" href="/" [routerLink]="'/'">
 		<img src="//i.planchon.org/logo.png" height="30" class="d-inline-block align-top" alt="a Bug's Land"> DNS Manager
 	</a>
-    <ol class="breadcrumb bg-darker mr-auto">
-        <li class="breadcrumb-item">
+	<ol class="breadcrumb bg-darker mr-auto">
+		<li class="breadcrumb-item">
 			<a href="/" [routerLink]="'/'"><i class="nav-text fa fa-15x fa-home"></i><span class="sr-only">(current)</span></a>
-        </li>
-        <li class="breadcrumb-item">
+		</li>
+		<li class="breadcrumb-item">
 			<a href="/zones" [routerLink]="'/zones'">Zones</a>
 			<!--
             <div ngbDropdown class="d-inline">
@@ -18,24 +18,29 @@
                 </div>
             </div>
 			-->
-        </li>
-        <li *ngIf="currentZoneName" class="breadcrumb-item">
-            <div class="d-inline dropdown" ngbDropdown>
-                <a id="dropdownMenuButton" [routerLink]="['/zones', currentZoneName]" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
-                    {{currentZoneName}}
-                </a>
-                <div class="dropdown-menu bg-darker" aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
-                    <a *ngFor="let zone of zones" class="dropdown-item" [routerLink]="['/zones', zone.name]">{{zone.name}}</a>
-                </div>
-            </div>
+		</li>
+		<li *ngIf="currentZoneName" class="breadcrumb-item">
+			<div class="d-inline dropdown" ngbDropdown>
+				<a id="dropdownMenuButton" [routerLink]="['/zones', currentZoneName]" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+					{{currentZoneName}}
+				</a>
+				<div class="dropdown-menu bg-darker" aria-labelledby="dropdownMenuButton" ngbDropdownMenu>
+					<a *ngFor="let zone of zones" class="dropdown-item" [routerLink]="['/zones', zone.name]">{{zone.name}}</a>
+				</div>
+			</div>
 		</li>
 		<li class="breadcrumb-item breadcrumb-text" *ngIf="loading"><span class="fa fa-spinner fa-pulse fa-fw"></span></li>
-    </ol>
+	</ol>
 	<div><a class="nav-text" href="/docs/" [routerLink]="'/docs/'"><span class="fa fa-question-circle"></span></a></div>
+	<button type="button" class="close" aria-label="Close" (click)="doLogout()">
+		<span aria-hidden="true" class="breadcrumb-text fa fa-close px-2"></span>
+	</button>
 </nav>
 
 <!-- <div class="container-fluid" [class.nomargin]="router.url == '/docs/'"> -->
 <div class="container-fluid nomargin">
-    <app-error [error]="error"></app-error>
-    <router-outlet></router-outlet>
+	<app-error [error]="error"></app-error>
+	<router-outlet></router-outlet>
 </div>
+<!--
+vim: set tabstop=2 noexpandtab binary noeol: -->
