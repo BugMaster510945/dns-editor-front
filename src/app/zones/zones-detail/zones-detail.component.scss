@@ -80,24 +80,24 @@ table.align-middle tr td
 		top: -9999px;
 		left: -9999px;
 	}
-  
+
 	.table>tbody>tr>td:before {
 		position: absolute;
 		left: 0.3em; // correspond a table-sm
-		text-indent: 0; 
+		text-indent: 0;
 		font-weight: bold;
 		content: attr(data-title);
 	}
- 
+
 	.table>tbody>tr>td {
 		position: relative;
-		text-indent: 50%; 
+		text-indent: 50%;
 		border: none;
 	}
 	.table>tbody>tr>td>span {
-		text-indent: 0; 
+		text-indent: 0;
 	}
- 
+
 	.btn-group-xs > .btn, .btn-xs {
 		padding: .25rem .5rem;
 		font-size: .875rem;
